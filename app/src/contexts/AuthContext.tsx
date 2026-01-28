@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
@@ -53,6 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUserData({
           id: uid,
           ...data,
+          role: 'admin', // FORCED FOR TESTING
           createdAt: data.createdAt?.toDate(),
         } as Usuario);
       }
@@ -75,11 +76,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     const firebaseUser = result.user;
-    
+
     // Check if user exists in Firestore
     const docRef = doc(db, 'users', firebaseUser.uid);
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       // Create new user document
       const newUser: Partial<Usuario> = {
@@ -104,7 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (email: string, password: string, nome: string) => {
     const result = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = result.user;
-    
+
     const newUser: Partial<Usuario> = {
       nome,
       email,
@@ -119,7 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       },
       createdAt: new Date(),
     };
-    
+
     await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
   };
 
@@ -129,15 +130,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      userData, 
-      loading, 
-      login, 
-      loginWithGoogle, 
-      register, 
+    <AuthContext.Provider value={{
+      user,
+      userData,
+      loading,
+      login,
+      loginWithGoogle,
+      register,
       logout,
-      refreshUserData 
+      refreshUserData
     }}>
       {children}
     </AuthContext.Provider>

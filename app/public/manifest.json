@@ -4,8 +4,8 @@
   "description": "Sistema completo para gestão de Arenas de Beach Tennis, Vôlei e Futevôlei com agendamento, ranking e gamificação.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f0f1a",
-  "theme_color": "#0f0f1a",
+  "background_color": "#0A1929",
+  "theme_color": "#4DD0E1",
   "orientation": "portrait",
   "scope": "/",
   "lang": "pt-BR",
@@ -59,7 +59,11 @@
       "purpose": "maskable any"
     }
   ],
-  "categories": ["sports", "productivity", "lifestyle"],
+  "categories": [
+    "sports",
+    "productivity",
+    "lifestyle"
+  ],
   "screenshots": [
     {
       "src": "/screenshot-1.png",
@@ -84,14 +88,24 @@
       "short_name": "Agendar",
       "description": "Agende uma quadra rapidamente",
       "url": "/?tab=agenda",
-      "icons": [{ "src": "/icon-agenda.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-agenda.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Ver Ranking",
       "short_name": "Ranking",
       "description": "Veja sua posição no ranking",
       "url": "/?tab=ranking",
-      "icons": [{ "src": "/icon-ranking.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-ranking.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }

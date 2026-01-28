@@ -4,26 +4,60 @@
 
 @layer base {
   :root {
-    --background: 240 20% 6%;
-    --foreground: 0 0% 100%;
-    --card: 240 20% 10%;
-    --card-foreground: 0 0% 100%;
-    --popover: 240 20% 10%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 82 85% 55%;
-    --primary-foreground: 240 20% 6%;
-    --secondary: 240 20% 15%;
+    /* Beach Premium Theme - Light & Relaxed */
+    --background: 40 40% 96%;
+    /* Sand off-white */
+    --foreground: 20 20% 20%;
+    /* Dark gray text */
+    --card: 0 0% 100%;
+    /* Pure white cards */
+    --card-foreground: 20 20% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 20% 20%;
+
+    /* Primary - Teal Ocean */
+    --primary: 174 72% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Coral Sunset */
+    --secondary: 14 91% 68%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 240 20% 15%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 82 85% 55%;
-    --accent-foreground: 240 20% 6%;
+
+    --muted: 40 20% 90%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Accent - Palm Green */
+    --accent: 142 71% 45%;
+    --accent-foreground: 0 0% 100%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 20% 15%;
-    --input: 240 20% 15%;
-    --ring: 82 85% 55%;
-    --radius: 0.75rem;
+    --border: 40 10% 85%;
+    --input: 40 10% 90%;
+
+    /* Ring - Teal */
+    --ring: 174 72% 56%;
+    --radius: 1.5rem;
+
+    /* Custom Beach Premium Colors */
+    --sand-light: 40 40% 96%;
+    /* Light sand background */
+    --sand-medium: 40 30% 88%;
+    /* Medium sand */
+    --teal-ocean: 174 72% 56%;
+    /* Primary teal */
+    --teal-deep: 174 72% 40%;
+    /* Deeper teal */
+    --coral-sunset: 14 91% 68%;
+    /* Coral accent */
+    --coral-light: 14 91% 85%;
+    /* Light coral */
+    --palm-green: 142 71% 45%;
+    /* Palm accent */
+    --ocean-blue: 199 92% 65%;
+    /* Sky blue */
+    --sunset-orange: 25 95% 60%;
+    /* Sunset orange */
   }
 }
 
@@ -31,10 +65,12 @@
   * {
     @apply border-border;
   }
-  
+
   body {
-    @apply bg-[#0f0f1a] text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply text-foreground antialiased;
+    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    background: #F7F5F2;
   }
 
   /* Custom scrollbar */
@@ -48,26 +84,42 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(163, 230, 53, 0.3);
+    background: hsl(var(--ocean-blue) / 0.3);
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(163, 230, 53, 0.5);
+    background: hsl(var(--ocean-blue) / 0.5);
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-[#a3e635] to-[#84cc16] bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[hsl(var(--sand-yellow))] to-[hsl(var(--sunset-orange))] bg-clip-text text-transparent;
+  }
+
+  .text-gradient-ocean {
+    @apply bg-gradient-to-r from-[hsl(var(--ocean-blue))] to-[hsl(var(--wave-teal))] bg-clip-text text-transparent;
   }
 
   .glass {
     @apply bg-white/5 backdrop-blur-lg border border-white/10;
   }
 
+  .glass-beach {
+    @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20;
+  }
+
   .card-hover {
-    @apply transition-all duration-300 hover:bg-white/10 hover:scale-[1.02];
+    @apply transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] hover:shadow-2xl;
+  }
+
+  .card-beach {
+    @apply rounded-3xl bg-gradient-to-br p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl;
+  }
+
+  .btn-beach {
+    @apply rounded-2xl px-6 py-3 font-semibold transition-all duration-200 hover:scale-105 active:scale-95;
   }
 }
 
@@ -92,6 +144,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -103,6 +156,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

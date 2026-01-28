@@ -9,6 +9,7 @@ export interface Usuario {
   nome: string;
   email: string;
   avatar?: string;
+  role: 'atleta' | 'admin' | 'professor';
   nivel: NivelJogador;
   telefone?: string;
   pontuacaoAtual: number;
@@ -18,8 +19,42 @@ export interface Usuario {
     derrotas: number;
     jogos: number;
     winRate: number;
+    aulasConcluidas?: number;
+    horasQuadra?: number;
+  };
+  financeiro?: {
+    mensalista: boolean;
+    vencimentoMensalidade?: Date;
+    statusMensalidade: 'em_dia' | 'pendente' | 'atrasado';
+    planoNome?: string;
   };
   duplaFixaId?: string;
+  createdAt: Date;
+}
+
+export interface Professor {
+  id: string;
+  nome: string;
+  email: string;
+  avatar?: string;
+  modalidades: string[];
+  comissao: number; // Porcentagem de repasse (ex: 70)
+  bio?: string;
+  telefone?: string;
+  ativa: boolean;
+  createdAt: Date;
+}
+
+export interface Pagamento {
+  id: string;
+  usuarioId: string;
+  valor: number;
+  tipo: 'mensalidade' | 'aula' | 'locacao';
+  descricao: string;
+  status: 'pendente' | 'pago' | 'cancelado';
+  metodo?: 'pix' | 'dinheiro';
+  dataVencimento: Date;
+  dataPagamento?: Date;
   createdAt: Date;
 }
 
@@ -71,6 +106,7 @@ export interface Quadra {
   horarioFechamento: string;
   duracaoSlot: number;
   precoHora: number;
+  descricao?: string;
   imagem?: string;
 }
 
@@ -82,7 +118,8 @@ export interface Agendamento {
   horarioInicio: Date;
   horarioFim: Date;
   status: StatusAgendamento;
-  tipo: 'individual' | 'dupla' | 'desafio';
+  tipo: 'individual' | 'dupla' | 'desafio' | 'aula';
+  professorId?: string;
   jogadores: string[];
   jogadoresInfo?: Usuario[];
   dupla1Id?: string;

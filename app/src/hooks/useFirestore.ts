@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  onSnapshot, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  addDoc,
+  updateDoc,
+  deleteDoc,
   doc,
   Timestamp,
   type QueryConstraint
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import type { Usuario, Agendamento } from '@/types';
+import { toast } from 'sonner';
+import type { Usuario, Agendamento, Quadra } from '@/types';
 
 export function useCollection<T>(
   collectionName: string,
@@ -25,7 +26,7 @@ export function useCollection<T>(
 
   useEffect(() => {
     const q = query(collection(db, collectionName), ...constraints);
-    
+
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
@@ -144,8 +145,47 @@ export function useAgendamentos(data?: Date) {
   return { agendamentos, loading };
 }
 
-export function useRanking(temporadaId?: string) {
+export function useUserAgendamentos(userId?: string) {
+  const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
+    const q = query(
+      collection(db, 'agendamentos'),
+      where('jogadores', 'array-contains', userId),
+      orderBy('data', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        data: doc.data().data?.toDate(),
+        horarioInicio: doc.data().horarioInicio?.toDate(),
+        horarioFim: doc.data().horarioFim?.toDate(),
+        createdAt: doc.data().createdAt?.toDate(),
+      })) as Agendamento[];
+      setAgendamentos(items);
+      setLoading(false);
+    }, (error) => {
+      console.error("Erro ao buscar agendamentos do usuário:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [userId]);
+
+  return { agendamentos, loading };
+}
+
+export function useRanking(userId?: string) {
   const [ranking, setRanking] = useState<Usuario[]>([]);
+  const [userPosition, setUserPosition] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -160,14 +200,21 @@ export function useRanking(temporadaId?: string) {
         ...doc.data(),
         posicao: index + 1,
       })) as unknown as Usuario[];
+
       setRanking(items);
+
+      if (userId) {
+        const index = items.findIndex(u => u.id === userId);
+        setUserPosition(index !== -1 ? index + 1 : null);
+      }
+
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [temporadaId]);
+  }, [userId]);
 
-  return { ranking, loading };
+  return { ranking, userPosition, loading };
 }
 
 interface ChallengeData {
@@ -245,4 +292,58 @@ export function useChallenges() {
   };
 
   return { challenges, loading, criarChallenge, darMatch, cancelarChallenge };
+}
+
+export function useQuadras() {
+  const [quadras, setQuadras] = useState<Quadra[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(
+      collection(db, 'quadras'),
+      where('ativa', '==', true),
+      orderBy('nome')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Quadra[];
+      setQuadras(items);
+      setLoading(false);
+    }, (error) => {
+      console.error("Erro ao buscar quadras:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const addQuadra = async (data: Omit<Quadra, 'id'>) => {
+    try {
+      await addDoc(collection(db, 'quadras'), {
+        ...data,
+        ativa: true
+      });
+      toast.success('Quadra adicionada com sucesso!');
+    } catch (error) {
+      console.error("Erro ao adicionar quadra:", error);
+      toast.error('Erro ao adicionar quadra');
+      throw error;
+    }
+  };
+
+  const updateQuadra = async (id: string, data: Partial<Quadra>) => {
+    try {
+      await updateDoc(doc(db, 'quadras', id), data);
+      toast.success('Quadra atualizada com sucesso!');
+    } catch (error) {
+      console.error("Erro ao atualizar quadra:", error);
+      toast.error('Erro ao atualizar quadra');
+      throw error;
+    }
+  };
+
+  return { quadras, loading, addQuadra, updateQuadra };
 }

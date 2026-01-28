@@ -8,6 +8,7 @@ import { AgendaSection } from '@/sections/AgendaSection';
 import { ChallengeSection } from '@/sections/ChallengeSection';
 import { RankingSection } from '@/sections/RankingSection';
 import { PerfilSection } from '@/sections/PerfilSection';
+import { AdminSection } from '@/sections/AdminSection';
 import { Loader2 } from 'lucide-react';
 
 function AppContent() {
@@ -36,7 +37,7 @@ function AppContent() {
   const renderSection = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeSection />;
+        return <HomeSection onNavigate={setActiveTab} />;
       case 'agenda':
         return <AgendaSection />;
       case 'challenge':
@@ -45,6 +46,8 @@ function AppContent() {
         return <RankingSection />;
       case 'perfil':
         return <PerfilSection />;
+      case 'admin':
+        return <AdminSection />;
       default:
         return <HomeSection />;
     }
@@ -62,7 +65,7 @@ function App() {
   return (
     <AuthProvider>
       <AppContent />
-      <Toaster 
+      <Toaster
         position="top-center"
         toastOptions={{
           style: {

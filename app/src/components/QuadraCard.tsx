@@ -1,6 +1,5 @@
-import { Clock, DollarSign } from 'lucide-react';
+import { Clock, DollarSign, MapPin } from 'lucide-react';
 import type { Quadra } from '@/types';
-import { Button } from '@/components/ui/button';
 
 interface QuadraCardProps {
   quadra: Quadra;
@@ -13,46 +12,81 @@ const tipoLabels = {
   futevolei: 'Futevôlei',
 };
 
-const tipoColors = {
-  beach_tennis: 'from-[#a3e635] to-[#84cc16]',
-  volei: 'from-[#c084fc] to-[#a855f7]',
-  futevolei: 'from-[#f472b6] to-[#ec4899]',
+const quadraImages = {
+  beach_tennis: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80',
+  volei: 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=800&q=80',
+  futevolei: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80',
+};
+
+const tipoGradients = {
+  beach_tennis: 'from-purple-900/70 via-fuchsia-950/80 to-purple-950/90',
+  volei: 'from-cyan-900/70 via-teal-950/80 to-cyan-950/90',
+  futevolei: 'from-orange-900/70 via-red-950/80 to-orange-950/90',
+};
+
+const tipoBorders = {
+  beach_tennis: 'border-purple-700/50',
+  volei: 'border-cyan-700/50',
+  futevolei: 'border-orange-700/50',
 };
 
 export function QuadraCard({ quadra, onAgendar }: QuadraCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10">
-      {/* Header with gradient */}
-      <div className={`h-24 bg-gradient-to-r ${tipoColors[quadra.tipo]} relative`}>
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute bottom-3 left-4">
-          <span className="px-2 py-1 rounded-full bg-black/30 text-white text-xs font-medium backdrop-blur-sm">
+    <button
+      onClick={onAgendar}
+      className="group relative overflow-hidden rounded-3xl h-40 shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full text-left"
+    >
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-50 transition-opacity duration-300"
+        style={{ backgroundImage: `url(${quadraImages[quadra.tipo]})` }}
+      />
+
+      {/* Dark Gradient Overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${tipoGradients[quadra.tipo]}`} />
+
+      {/* Border */}
+      <div className={`absolute inset-0 border-2 ${tipoBorders[quadra.tipo]} rounded-3xl`} />
+
+      {/* Decorative glow */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-500" />
+
+      {/* Content */}
+      <div className="relative h-full p-5 flex flex-col justify-between">
+        {/* Type Badge */}
+        <div className="flex items-center justify-between">
+          <span className={`
+            px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-sm 
+            border ${tipoBorders[quadra.tipo]}
+            text-xs font-black text-white uppercase tracking-wider
+          `}>
             {tipoLabels[quadra.tipo]}
           </span>
-        </div>
-      </div>
-
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-white mb-2">{quadra.nome}</h3>
-        
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <Clock className="w-4 h-4" />
-            <span>{quadra.horarioAbertura} - {quadra.horarioFechamento}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <DollarSign className="w-4 h-4" />
-            <span>R$ {quadra.precoHora}/hora</span>
-          </div>
+          <MapPin className="w-5 h-5 text-white/60" />
         </div>
 
-        <Button 
-          onClick={onAgendar}
-          className="w-full bg-[#a3e635] hover:bg-[#84cc16] text-black font-medium"
-        >
-          Ver Horários
-        </Button>
+        {/* Title & Info */}
+        <div>
+          <h3 className="text-2xl font-black text-white mb-2 drop-shadow-lg">
+            {quadra.nome}
+          </h3>
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-white/80" />
+              <span className="text-sm font-bold text-white/90">
+                {quadra.horarioAbertura} - {quadra.horarioFechamento}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <DollarSign className="w-4 h-4 text-yellow-300" />
+              <span className="text-sm font-black text-yellow-300">
+                R$ {quadra.precoHora}/h
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </button>
   );
 }
