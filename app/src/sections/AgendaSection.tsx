@@ -99,21 +99,21 @@ export function AgendaSection() {
   };
 
   return (
-    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
+    <div className="min-h-screen pb-24 bg-sand-50 dark:bg-sand-dark-50">
       {/* Date Selector Horizontal Strip */}
-      <div className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-20 shadow-sm">
-        <div className="flex items-center justify-between px-4 py-3">
+      <div className="bg-white dark:bg-sand-dark-100 border-b border-sand-200 dark:border-sand-dark-200 sticky top-0 z-20 shadow-card">
+        <div className="flex items-center justify-between px-6 py-3">
           <div className="flex items-center gap-2">
-            <Palmtree className="w-5 h-5 text-teal-600" />
-            <h1 className="text-sm font-black text-gray-900 uppercase tracking-widest">Reservar Quadra</h1>
+            <Palmtree className="w-5 h-5 text-teal-600 dark:text-teal-dark" />
+            <h1 className="text-sm font-black text-sand-900 dark:text-sand-dark-900 uppercase tracking-tight">Reservar Quadra</h1>
           </div>
-          <div className="flex items-center gap-1.5 bg-gray-100 p-1 rounded-full">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-[9px] font-black text-gray-500 uppercase tracking-tighter">Live Arena</span>
+          <div className="flex items-center gap-1.5 bg-teal-600/10 dark:bg-teal-dark/10 p-1.5 rounded-full">
+            <div className="w-2 h-2 bg-teal-600 dark:bg-teal-dark rounded-full animate-pulse" />
+            <span className="text-[9px] font-black text-teal-600 dark:text-teal-dark uppercase tracking-tight">Live Arena</span>
           </div>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto px-4 pb-4 no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto hide-scrollbar px-6 pb-4">
           {dateStrip.map((date, i) => {
             const active = isSameDay(date, selectedDate);
             return (
@@ -121,11 +121,11 @@ export function AgendaSection() {
                 key={i}
                 onClick={() => setSelectedDate(date)}
                 className={`flex flex-col items-center justify-center min-w-[64px] h-16 rounded-2xl transition-all ${active
-                  ? 'bg-gray-900 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-400 border border-gray-100'
+                  ? 'bg-teal-600 dark:bg-teal-dark text-white shadow-button-teal scale-105'
+                  : 'bg-white dark:bg-sand-dark-100 text-sand-400 dark:text-sand-dark-400 border border-sand-200 dark:border-sand-dark-200'
                   }`}
               >
-                <span className={`text-[10px] font-black uppercase tracking-tighter mb-1 ${active ? 'opacity-70' : 'opacity-40'}`}>
+                <span className={`text-[10px] font-black uppercase tracking-tight mb-1 ${active ? 'opacity-90' : 'opacity-60'}`}>
                   {format(date, 'EEE', { locale: ptBR }).replace('.', '')}
                 </span>
                 <span className="text-lg font-black leading-none">
@@ -167,22 +167,22 @@ export function AgendaSection() {
                 className="bg-white rounded-[32px] border border-gray-200 overflow-hidden shadow-xl"
               >
                 {/* Court Info Header */}
-                <div className="p-5 border-b border-gray-50 flex items-start justify-between">
+                <div className="p-5 border-b border-sand-200 dark:border-sand-dark-200 flex items-start justify-between">
                   <div className="flex gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-teal-50 flex items-center justify-center">
-                      <Palmtree className="w-6 h-6 text-teal-600" />
+                    <div className="w-12 h-12 rounded-2xl bg-teal-600/10 dark:bg-teal-dark/10 flex items-center justify-center">
+                      <Palmtree className="w-6 h-6 text-teal-600 dark:text-teal-dark" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-black text-gray-900 uppercase tracking-tight">{court.nome}</h3>
+                      <h3 className="text-sm font-black text-sand-900 dark:text-sand-dark-900 uppercase tracking-tight">{court.nome}</h3>
                       <div className="flex items-center gap-1.5 mt-1">
-                        <MapPin className="w-3 h-3 text-gray-300" />
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">{court.descricao || 'Destaque da Arena'}</span>
+                        <MapPin className="w-3 h-3 text-sand-400 dark:text-sand-dark-400" />
+                        <span className="text-[10px] font-bold text-sand-400 dark:text-sand-dark-400 uppercase tracking-tight">{court.descricao || 'Destaque da Arena'}</span>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="block text-sm font-black text-gray-900">R$ {court.precoHora}</span>
-                    <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">POR HORA</span>
+                    <span className="block text-sm font-black text-coral-500 dark:text-coral-dark">R$ {court.precoHora}</span>
+                    <span className="text-[8px] font-bold text-sand-400 dark:text-sand-dark-400 uppercase tracking-wide">POR HORA</span>
                   </div>
                 </div>
 

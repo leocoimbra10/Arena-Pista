@@ -85,9 +85,9 @@ export function PerfilSection() {
       label: 'Win Rate',
       value: `${userData?.estatisticas?.winRate || 0}%`,
       icon: Target,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-100'
+      color: 'text-teal-600',
+      bgColor: 'bg-teal-50',
+      borderColor: 'border-teal-100'
     },
   ];
 
@@ -138,16 +138,16 @@ export function PerfilSection() {
   ];
 
   return (
-    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
-      {/* Premium Header */}
-      <div className="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 px-4 py-4 sticky top-0 z-10 shadow-sm flex items-center justify-between">
+    <div className="min-h-screen pb-24 bg-sand-50 dark:bg-sand-dark-50">
+      {/* Beach Premium Header */}
+      <div className="bg-white dark:bg-sand-dark-100 border-b border-sand-200 dark:border-sand-dark-200 px-6 py-4 sticky top-0 z-20 shadow-card flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Activity className="w-5 h-5 text-teal-600" />
-          <h1 className="text-lg font-black text-gray-900 uppercase tracking-tight">Meu Perfil Atleta</h1>
+          <Activity className="w-5 h-5 text-teal-600 dark:text-teal-dark" />
+          <h1 className="text-lg font-black text-sand-900 dark:text-sand-dark-900 uppercase tracking-tight">Meu Perfil Atleta</h1>
         </div>
         <button
           onClick={() => setShowEditDialog(true)}
-          className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+          className="p-2 rounded-full bg-teal-600/10 dark:bg-teal-dark/10 text-teal-600 dark:text-teal-dark hover:bg-teal-600/20 dark:hover:bg-teal-dark/20 transition-colors"
         >
           <Edit3 className="w-4 h-4" />
         </button>
@@ -186,7 +186,7 @@ export function PerfilSection() {
             </div>
           </div>
 
-          <div className="absolute top-0 right-0 w-32 h-32 bg-teal-50 rounded-full blur-3xl -z-10" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-teal-600/10 dark:bg-teal-dark/10 rounded-full blur-3xl -z-10" />
         </div>
 
         {/* Arena Record Section */}

@@ -3,74 +3,24 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Beach Premium Theme - Light & Relaxed */
-    --background: 40 40% 96%;
-    /* Sand off-white */
-    --foreground: 20 20% 20%;
-    /* Dark gray text */
-    --card: 0 0% 100%;
-    /* Pure white cards */
-    --card-foreground: 20 20% 20%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 20% 20%;
-
-    /* Primary - Teal Ocean */
-    --primary: 174 72% 56%;
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary - Coral Sunset */
-    --secondary: 14 91% 68%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 40 20% 90%;
-    --muted-foreground: 0 0% 45%;
-
-    /* Accent - Palm Green */
-    --accent: 142 71% 45%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 40 10% 85%;
-    --input: 40 10% 90%;
-
-    /* Ring - Teal */
-    --ring: 174 72% 56%;
-    --radius: 1.5rem;
-
-    /* Custom Beach Premium Colors */
-    --sand-light: 40 40% 96%;
-    /* Light sand background */
-    --sand-medium: 40 30% 88%;
-    /* Medium sand */
-    --teal-ocean: 174 72% 56%;
-    /* Primary teal */
-    --teal-deep: 174 72% 40%;
-    /* Deeper teal */
-    --coral-sunset: 14 91% 68%;
-    /* Coral accent */
-    --coral-light: 14 91% 85%;
-    /* Light coral */
-    --palm-green: 142 71% 45%;
-    /* Palm accent */
-    --ocean-blue: 199 92% 65%;
-    /* Sky blue */
-    --sunset-orange: 25 95% 60%;
-    /* Sunset orange */
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply text-foreground antialiased;
-    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    /* Beach Premium Typography - Award-winning quality */
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.01em;
+    /* Tight tracking for modern feel */
+
+    /* Beach Premium Colors - Pixel Perfect */
+    background: #FDFCF8;
+    /* bg-sand-50 - warm sand base, NOT white */
+    color: #422006;
+    /* text-sand-900 - deep coffee brown, NO pure black */
+
+    @apply antialiased;
     min-height: 100vh;
-    background: #F5E6D3;
   }
 
   /* Custom scrollbar */
@@ -107,7 +57,12 @@
   }
 
   .glass-beach {
-    @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20;
+    /* Premium Glassmorphism - Real blur effect for floating elements */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .card-hover {
@@ -120,6 +75,18 @@
 
   .btn-beach {
     @apply rounded-2xl px-6 py-3 font-semibold transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
   }
 }
 

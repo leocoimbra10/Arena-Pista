@@ -1,4 +1,4 @@
-import { Calendar, Trophy, Users, Home, User, ShieldAlert } from 'lucide-react';
+import { Calendar, Trophy, Users, Home, User, ShieldAlert, GraduationCap } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface BottomNavProps {
@@ -16,6 +16,10 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
     { id: 'ranking', icon: Trophy, label: 'Ranking' },
     { id: 'perfil', icon: User, label: 'Perfil' },
   ];
+
+  if (userData?.role === 'professor') {
+    tabs.push({ id: 'professor', icon: GraduationCap, label: 'Aulas' });
+  }
 
   if (userData?.role === 'admin') {
     tabs.push({ id: 'admin', icon: ShieldAlert, label: 'Admin' });

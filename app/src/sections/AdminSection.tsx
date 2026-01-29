@@ -15,7 +15,6 @@ import {
     ShieldCheck,
     GraduationCap,
     Phone,
-    ChevronDown,
     Calendar
 } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -24,7 +23,10 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
+import { useAuth } from '@/contexts/AuthContext';
+
 export function AdminSection() {
+    const { userData } = useAuth();
     const [activeTab, setActiveTab] = useState<'financeiro' | 'quadras' | 'usuarios' | 'professores'>('financeiro');
     const { data: usuarios, update: updateUsuario } = useCollection<Usuario>('users');
     const { quadras, addQuadra, updateQuadra } = useQuadras();
@@ -46,6 +48,26 @@ export function AdminSection() {
     const teacherAgendamentos = agendamentos?.filter(a => a.professorId === selectedProfessorForAgenda?.id);
 
     const [searchTerm, setSearchTerm] = useState('');
+
+    // SECURITY: Only allow admin users
+    if (userData?.role !== 'admin') {
+        return (
+            <div className="min-h-screen bg-sand-50 dark:bg-sand-dark-50 flex items-center justify-center p-6">
+                <div className="bg-white dark:bg-sand-dark-100 rounded-3xl shadow-card p-8 max-w-md text-center">
+                    <ShieldCheck className="w-16 h-16 mx-auto mb-4 text-coral-500 dark:text-coral-dark" />
+                    <h2 className="text-2xl font-black text-sand-900 dark:text-sand-dark-900 mb-2">Acesso Restrito</h2>
+                    <p className="text-sm text-sand-400 dark:text-sand-dark-400 mb-6">
+                        Esta área é exclusiva para administradores da arena. Se você precisa de acesso administrativo, entre em contato com o gestor da arena.
+                    </p>
+                    <div className="bg-sand-100 dark:bg-sand-dark-200 rounded-2xl p-4">
+                        <p className="text-xs font-bold text-sand-900 dark:text-sand-dark-900 uppercase tracking-tight">
+                            Seu perfil atual: {userData?.role || 'player'}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     const filteredUsuarios = usuarios?.filter(u =>
         u.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -183,83 +205,87 @@ export function AdminSection() {
     };
 
     return (
-        <div className="min-h-screen pb-24 bg-[#F5E6D3]">
-            {/* Clean Minimalist Header */}
-            <div className="bg-gradient-to-b from-[#FDFAF5] to-white border-b border-gray-200 px-6 py-6 sticky top-0 z-20">
+        <div className="min-h-screen pb-24 bg-sand-50 dark:bg-sand-dark-50">
+            {/* Beach Premium Header - matches PAINEL PISTA */}
+            <div className="bg-white dark:bg-sand-dark-100 border-b border-sand-200 dark:border-sand-dark-200 px-6 py-6 sticky top-0 z-20">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
-                            <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-                            <span className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Admin</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-dark" />
+                            <span className="text-[9px] text-teal-600 dark:text-teal-dark font-bold uppercase tracking-widest">AMBIENTE SEGURO</span>
                         </div>
-                        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Painel Arena</h1>
+                        <h1 className="text-2xl font-black tracking-tight">
+                            <span className="text-teal-600 dark:text-teal-dark">PAINEL </span>
+                            <span className="text-coral-500 dark:text-coral-dark">PISTA</span>
+                        </h1>
+                        <p className="text-[11px] text-coral-500 dark:text-coral-dark font-bold uppercase tracking-wide mt-0.5">Gestão Inteligente da Arena</p>
                     </div>
-                    <div className="w-11 h-11 bg-gray-100 rounded-2xl flex items-center justify-center">
-                        <ShieldCheck className="w-5 h-5 text-gray-600" />
+                    <div className="w-11 h-11 bg-teal-600/10 dark:bg-teal-dark/10 rounded-2xl flex items-center justify-center">
+                        <ShieldCheck className="w-5 h-5 text-teal-600 dark:text-teal-dark" />
                     </div>
                 </div>
 
-                {/* Module Selector - Clean Dropdown */}
+                {/* Module Selector - Beach Premium Dropdown */}
                 <div>
                     <Select value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
-                        <SelectTrigger className="w-full bg-white border-gray-200 rounded-2xl h-14 font-bold text-gray-900 shadow-sm">
+                        <SelectTrigger className="w-full bg-sand-100 dark:bg-sand-dark-200 border-sand-200 dark:border-sand-dark-200 rounded-2xl h-14 font-black text-sand-900 dark:text-sand-dark-900 uppercase tracking-wide shadow-sm">
                             <div className="flex items-center gap-3">
-                                <div className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center">
-                                    {activeTab === 'financeiro' && <DollarSign className="w-4 h-4 text-gray-600" />}
-                                    {activeTab === 'usuarios' && <Users className="w-4 h-4 text-gray-600" />}
-                                    {activeTab === 'professores' && <GraduationCap className="w-4 h-4 text-gray-600" />}
-                                    {activeTab === 'quadras' && <Palmtree className="w-4 h-4 text-gray-600" />}
+                                <div className="w-9 h-9 bg-white dark:bg-sand-dark-100 rounded-xl flex items-center justify-center">
+                                    {activeTab === 'financeiro' && <DollarSign className="w-4 h-4 text-sand-900 dark:text-sand-dark-900" />}
+                                    {activeTab === 'usuarios' && <Users className="w-4 h-4 text-sand-900 dark:text-sand-dark-900" />}
+                                    {activeTab === 'professores' && <GraduationCap className="w-4 h-4 text-sand-900 dark:text-sand-dark-900" />}
+                                    {activeTab === 'quadras' && <Palmtree className="w-4 h-4 text-sand-900 dark:text-sand-dark-900" />}
                                 </div>
                                 <SelectValue />
                             </div>
                         </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-200 rounded-2xl">
-                            <SelectItem value="financeiro" className="font-bold">Financeiro</SelectItem>
-                            <SelectItem value="usuarios" className="font-bold">Atletas</SelectItem>
-                            <SelectItem value="professores" className="font-bold">Professores</SelectItem>
-                            <SelectItem value="quadras" className="font-bold">Quadras</SelectItem>
+                        <SelectContent className="bg-white dark:bg-sand-dark-100 border-sand-200 dark:border-sand-dark-200 rounded-2xl z-50">
+                            <SelectItem value="financeiro" className="font-black uppercase tracking-wide">Financeiro</SelectItem>
+                            <SelectItem value="usuarios" className="font-black uppercase tracking-wide">Jogadores</SelectItem>
+                            <SelectItem value="professores" className="font-black uppercase tracking-wide">Professores</SelectItem>
+                            <SelectItem value="quadras" className="font-black uppercase tracking-wide">Quadras</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
             </div>
 
             <div className="p-6">
-                {/* Search Bar */}
+                {/* Search Bar - Beach Premium */}
                 {(activeTab === 'usuarios' || activeTab === 'financeiro' || activeTab === 'professores') && (
                     <div className="relative mb-6">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-teal-600 dark:text-teal-dark" />
                         <input
                             type="text"
-                            placeholder="Buscar atleta..."
+                            placeholder="BUSCAR..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-medium text-gray-900 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500/50 transition-all outline-none placeholder:text-gray-400"
+                            className="w-full bg-white dark:bg-sand-dark-100 border border-sand-200 dark:border-sand-dark-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold text-sand-900 dark:text-sand-dark-900 focus:ring-2 focus:ring-teal-600/20 dark:focus:ring-teal-dark/ 20 focus:border-teal-600 dark:focus:border-teal-dark transition-all outline-none placeholder:text-sand-400 dark:placeholder:text-sand-dark-400 placeholder:font-normal uppercase tracking-wide"
                         />
                     </div>
                 )}
 
                 {activeTab === 'financeiro' && (
                     <div className="space-y-4">
-                        <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider px-1">Pagamentos Pendentes</h2>
+                        <h2 className="text-xs font-black text-sand-900 dark:text-sand-dark-900 uppercase tracking-wider px-1">PAGAMENTOS PENDENTES</h2>
                         {pagamentos?.filter(p => p.status === 'pendente').map(pag => (
-                            <div key={pag.id} className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-xl shadow-gray-200/20 flex items-center justify-between group hover:border-teal-500/20 transition-all">
+                            <div key={pag.id} className="bg-white dark:bg-sand-dark-100 p-6 rounded-3xl border border-sand-200 dark:border-sand-dark-200 shadow-card flex items-center justify-between group hover:border-teal-600/40 dark:hover:border-teal-dark/40 transition-all">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center border border-orange-100 group-hover:bg-orange-500 group-hover:text-white transition-all">
-                                        <Clock className="w-6 h-6 text-orange-500 group-hover:text-white" />
+                                    <div className="w-12 h-12 rounded-2xl bg-coral-500/10 dark:bg-coral-dark/10 flex items-center justify-center border-2 border-coral-500/20 dark:border-coral-dark/20 group-hover:bg-coral-500 group-hover:border-coral-500 transition-all">
+                                        <Clock className="w-6 h-6 text-coral-500 dark:text-coral-dark group-hover:text-white" />
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-black text-gray-900 leading-none mb-1">{usuarios?.find(u => u.id === pag.usuarioId)?.nome}</h4>
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">{pag.descricao}</p>
+                                        <h4 className="text-sm font-black text-sand-900 dark:text-sand-dark-900 leading-none mb-1">{usuarios?.find(u => u.id === pag.usuarioId)?.nome}</h4>
+                                        <p className="text-[10px] font-bold text-sand-400 dark:text-sand-dark-400 uppercase tracking-tight">{pag.descricao}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-5">
                                     <div className="text-right">
-                                        <p className="text-lg font-black text-orange-600 leading-none mb-0.5">R$ {pag.valor}</p>
-                                        <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest italic">Vence {new Date(pag.dataVencimento).toLocaleDateString()}</p>
+                                        <p className="text-lg font-black text-coral-500 dark:text-coral-dark leading-none mb-0.5">R$ {pag.valor}</p>
+                                        <p className="text-[8px] font-bold text-sand-400 dark:text-sand-dark-400 uppercase tracking-tight">Vence {new Date(pag.dataVencimento).toLocaleDateString()}</p>
                                     </div>
                                     <button
                                         onClick={() => handleConfirmPayment(pag.id)}
-                                        className="h-10 px-5 bg-teal-500 text-white rounded-[20px] hover:bg-teal-600 shadow-lg shadow-teal-500/20 active:scale-95 transition-all text-[10px] font-black uppercase tracking-wider"
+                                        className="h-10 px-5 bg-teal-600 dark:bg-teal-dark text-white rounded-2xl hover:scale-105 shadow-button-teal active:scale-95 transition-all text-[10px] font-black uppercase tracking-wide"
                                     >
                                         Pagar
                                     </button>
@@ -267,7 +293,7 @@ export function AdminSection() {
                             </div>
                         ))}
                         {pagamentos?.filter(p => p.status === 'pendente').length === 0 && (
-                            <p className="text-center py-12 text-sm text-gray-400 italic">Nenhum pagamento pendente no momento.</p>
+                            <p className="text-center py-12 text-sm text-sand-400 dark:text-sand-dark-400 italic">Nenhum pagamento pendente no momento.</p>
                         )}
                     </div>
                 )}

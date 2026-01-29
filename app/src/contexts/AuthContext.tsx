@@ -12,6 +12,26 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import type { Usuario } from '@/types';
 
+// Admin email whitelist from environment variable
+const ADMIN_EMAILS = import.meta.env.VITE_ADMIN_EMAILS
+  ? import.meta.env.VITE_ADMIN_EMAILS.split(',').map((email: string) => email.trim().toLowerCase())
+  : [];
+
+// Teacher email whitelist from environment variable
+const TEACHER_EMAILS = import.meta.env.VITE_TEACHER_EMAILS
+  ? import.meta.env.VITE_TEACHER_EMAILS.split(',').map((email: string) => email.trim().toLowerCase())
+  : [];
+
+// Helper: Determine role based on email whitelists
+const getRoleFromEmail = (email: string | null): 'admin' | 'professor' | 'atleta' => {
+  if (!email) return 'atleta';
+  const emailLower = email.toLowerCase();
+
+  if (ADMIN_EMAILS.includes(emailLower)) return 'admin';
+  if (TEACHER_EMAILS.includes(emailLower)) return 'professor';
+  return 'atleta';
+};
+
 interface AuthContextType {
   user: FirebaseUser | null;
   userData: Usuario | null;
@@ -53,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUserData({
           id: uid,
           ...data,
-          role: 'admin', // FORCED FOR TESTING
+          role: data.role || 'atleta', // Use actual role from database, default to 'atleta'
           createdAt: data.createdAt?.toDate(),
         } as Usuario);
       }
@@ -82,11 +102,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
+      // Auto-assign role based on email whitelists
+      const role = getRoleFromEmail(firebaseUser.email);
+
       // Create new user document
       const newUser: Partial<Usuario> = {
         nome: firebaseUser.displayName || 'Usuário',
         email: firebaseUser.email || '',
         avatar: firebaseUser.photoURL || undefined,
+        role, // Auto-assigned based on email whitelist
         nivel: 'iniciante',
         pontuacaoAtual: 0,
         posicaoRanking: 0,
@@ -106,9 +130,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const result = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = result.user;
 
+    // Auto-assign role based on email whitelists
+    const role = getRoleFromEmail(email);
+
     const newUser: Partial<Usuario> = {
       nome,
       email,
+      role, // Auto-assigned based on email whitelist
       nivel: 'iniciante',
       pontuacaoAtual: 0,
       posicaoRanking: 0,

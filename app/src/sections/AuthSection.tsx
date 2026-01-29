@@ -1,28 +1,24 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Eye, 
-  EyeOff, 
-  Mail, 
-  Lock, 
-  User, 
+
+import { BeachButton } from '@/components/BeachButton';
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
   Chrome,
-  Trophy,
-  Calendar,
-  Users,
-  Target
+  Waves
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-export function AuthSection({ onAuth }: { onAuth: () => void }) {
+export function AuthSection() {
   const { login, register, loginWithGoogle } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+  const [isLogin, setIsLogin] = useState(true);
+
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [registerData, setRegisterData] = useState({ nome: '', email: '', password: '' });
 
@@ -32,7 +28,6 @@ export function AuthSection({ onAuth }: { onAuth: () => void }) {
     try {
       await login(loginData.email, loginData.password);
       toast.success('Login realizado com sucesso!');
-      onAuth();
     } catch (error: any) {
       toast.error(error.message || 'Erro ao fazer login');
     } finally {
@@ -46,7 +41,6 @@ export function AuthSection({ onAuth }: { onAuth: () => void }) {
     try {
       await register(registerData.email, registerData.password, registerData.nome);
       toast.success('Conta criada com sucesso!');
-      onAuth();
     } catch (error: any) {
       toast.error(error.message || 'Erro ao criar conta');
     } finally {
@@ -58,8 +52,7 @@ export function AuthSection({ onAuth }: { onAuth: () => void }) {
     setLoading(true);
     try {
       await loginWithGoogle();
-      toast.success('Login realizado com sucesso!');
-      onAuth();
+      toast.success('Login com Google realizado!');
     } catch (error: any) {
       toast.error(error.message || 'Erro ao fazer login com Google');
     } finally {
@@ -67,222 +60,228 @@ export function AuthSection({ onAuth }: { onAuth: () => void }) {
     }
   };
 
-  const features = [
-    { icon: Calendar, text: 'Agende suas quadras' },
-    { icon: Trophy, text: 'Participe do ranking' },
-    { icon: Users, text: 'Encontre parceiros' },
-    { icon: Target, text: 'Evolua seu jogo' },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#0f0f1a] flex flex-col">
-      {/* Hero */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
+    <div className="relative min-h-screen w-full overflow-hidden">
+      {/* Full-Screen Background - Golden Hour Beach Scene */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('/beach-bg.jpg')`, // TODO: Replace with actual generated image
+        }}
+      >
+        {/* Dark Gradient Overlay for Text Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-sand-900/80 via-sand-900/40 to-transparent" />
+      </div>
+
+      {/* Floating Glassmorphism Login Card */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
         <div className="w-full max-w-md">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#a3e635] to-[#84cc16] mb-4">
-              <Trophy className="w-10 h-10 text-black" />
+          {/* Frosted Glass Card */}
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl">
+            {/* Logo */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-teal-600 to-teal-500 mb-4 shadow-button-teal">
+                <Waves className="w-12 h-12 text-white" />
+              </div>
+              <h1 className="text-4xl font-black text-white mb-2 tracking-tight">
+                PISTA <span className="text-coral-500">RESENHA</span>
+              </h1>
+              <p className="text-lg font-bold text-white/90 uppercase tracking-wide">Sua Arena, Sua Vibe.</p>
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">ArenaPro</h1>
-            <p className="text-gray-400">Gestão de Esportes de Areia</p>
-          </div>
 
-          {/* Features */}
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <div 
-                  key={feature.text}
-                  className="flex items-center gap-2 p-3 rounded-xl bg-white/5"
-                >
-                  <Icon className="w-4 h-4 text-[#a3e635]" />
-                  <span className="text-xs text-gray-300">{feature.text}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Auth Tabs */}
-          <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-white/5 mb-6">
-              <TabsTrigger 
-                value="login"
-                className="data-[state=active]:bg-[#a3e635] data-[state=active]:text-black"
+            {/* Tab Switcher */}
+            <div className="flex gap-2 mb-6 p-1 bg-white/10 rounded-2xl">
+              <button
+                onClick={() => setIsLogin(true)}
+                className={`flex-1 py-3 rounded-xl font-black uppercase text-sm tracking-tight transition-all ${isLogin
+                  ? 'bg-teal-600 text-white shadow-button-teal'
+                  : 'text-white/70 hover:text-white'
+                  }`}
               >
                 Entrar
-              </TabsTrigger>
-              <TabsTrigger 
-                value="register"
-                className="data-[state=active]:bg-[#a3e635] data-[state=active]:text-black"
+              </button>
+              <button
+                onClick={() => setIsLogin(false)}
+                className={`flex-1 py-3 rounded-xl font-black uppercase text-sm tracking-tight transition-all ${!isLogin
+                  ? 'bg-coral-500 text-white shadow-button-coral'
+                  : 'text-white/70 hover:text-white'
+                  }`}
               >
                 Criar Conta
-              </TabsTrigger>
-            </TabsList>
+              </button>
+            </div>
 
-            <TabsContent value="login">
+            {/* Login Form */}
+            {isLogin ? (
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                  <Label className="text-gray-400">Email</Label>
-                  <div className="relative mt-1">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    <Input
+                  <label className="block text-xs font-bold text-white/80 uppercase tracking-wide mb-2">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-teal-600" />
+                    <input
                       type="email"
                       placeholder="seu@email.com"
                       value={loginData.email}
                       onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                      className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600"
+                      className="w-full bg-white/80 backdrop-blur-sm border border-white/30 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-bold text-sand-900 placeholder:text-sand-400 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 transition-all"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label className="text-gray-400">Senha</Label>
-                  <div className="relative mt-1">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    <Input
+                  <label className="block text-xs font-bold text-white/80 uppercase tracking-wide mb-2">
+                    Senha
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-teal-600" />
+                    <input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="••••••••"
                       value={loginData.password}
                       onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                      className="pl-10 pr-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600"
+                      className="w-full bg-white/80 backdrop-blur-sm border border-white/30 rounded-2xl pl-12 pr-12 py-3.5 text-sm font-bold text-sand-900 placeholder:text-sand-400 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 transition-all"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-sand-400 hover:text-sand-900 transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
                   </div>
                 </div>
 
-                <Button 
+                <BeachButton
                   type="submit"
+                  variant="primary-teal"
+                  size="lg"
                   disabled={loading}
-                  className="w-full bg-[#a3e635] hover:bg-[#84cc16] text-black font-medium"
+                  className="w-full"
                 >
-                  {loading ? 'Entrando...' : 'Entrar'}
-                </Button>
+                  {loading ? 'Entrando...' : 'Entrar na Arena'}
+                </BeachButton>
 
                 <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-white/10" />
+                    <div className="w-full border-t border-white/20" />
                   </div>
                   <div className="relative flex justify-center text-xs">
-                    <span className="px-2 bg-[#0f0f1a] text-gray-500">ou continue com</span>
+                    <span className="bg-transparent px-3 text-white/60 font-bold uppercase tracking-wide">Ou</span>
                   </div>
                 </div>
 
-                <Button 
+                <button
                   type="button"
-                  variant="outline"
                   onClick={handleGoogleLogin}
                   disabled={loading}
-                  className="w-full border-white/20 text-white hover:bg-white/10"
+                  className="w-full flex items-center justify-center gap-3 bg-white/90 hover:bg-white border border-white/30 rounded-2xl px-6 py-3.5 font-black text-sand-900 uppercase text-sm tracking-tight transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
                 >
-                  <Chrome className="w-5 h-5 mr-2" />
+                  <Chrome className="w-5 h-5" />
                   Google
-                </Button>
+                </button>
               </form>
-            </TabsContent>
-
-            <TabsContent value="register">
+            ) : (
+              /* Register Form */
               <form onSubmit={handleRegister} className="space-y-4">
                 <div>
-                  <Label className="text-gray-400">Nome Completo</Label>
-                  <div className="relative mt-1">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    <Input
+                  <label className="block text-xs font-bold text-white/80 uppercase tracking-wide mb-2">
+                    Nome Completo
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-coral-500" />
+                    <input
                       type="text"
-                      placeholder="Seu nome"
+                      placeholder="Seu Nome"
                       value={registerData.nome}
                       onChange={(e) => setRegisterData({ ...registerData, nome: e.target.value })}
-                      className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600"
+                      className="w-full bg-white/80 backdrop-blur-sm border border-white/30 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-bold text-sand-900 placeholder:text-sand-400 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-coral-500/50 focus:border-coral-500 transition-all"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label className="text-gray-400">Email</Label>
-                  <div className="relative mt-1">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    <Input
+                  <label className="block text-xs font-bold text-white/80 uppercase tracking-wide mb-2">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-coral-500" />
+                    <input
                       type="email"
                       placeholder="seu@email.com"
                       value={registerData.email}
                       onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                      className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600"
+                      className="w-full bg-white/80 backdrop-blur-sm border border-white/30 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-bold text-sand-900 placeholder:text-sand-400 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-coral-500/50 focus:border-coral-500 transition-all"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label className="text-gray-400">Senha</Label>
-                  <div className="relative mt-1">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    <Input
+                  <label className="block text-xs font-bold text-white/80 uppercase tracking-wide mb-2">
+                    Senha
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-coral-500" />
+                    <input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="••••••••"
                       value={registerData.password}
                       onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                      className="pl-10 pr-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600"
+                      className="w-full bg-white/80 backdrop-blur-sm border border-white/30 rounded-2xl pl-12 pr-12 py-3.5 text-sm font-bold text-sand-900 placeholder:text-sand-400 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-coral-500/50 focus:border-coral-500 transition-all"
                       required
-                      minLength={6}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-sand-400 hover:text-sand-900 transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
                   </div>
                 </div>
 
-                <Button 
+                <BeachButton
                   type="submit"
+                  variant="secondary-coral"
+                  size="lg"
                   disabled={loading}
-                  className="w-full bg-[#a3e635] hover:bg-[#84cc16] text-black font-medium"
+                  className="w-full"
                 >
-                  {loading ? 'Criando conta...' : 'Criar Conta'}
-                </Button>
+                  {loading ? 'Criando...' : 'Criar Conta'}
+                </BeachButton>
 
                 <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-white/10" />
+                    <div className="w-full border-t border-white/20" />
                   </div>
                   <div className="relative flex justify-center text-xs">
-                    <span className="px-2 bg-[#0f0f1a] text-gray-500">ou continue com</span>
+                    <span className="bg-transparent px-3 text-white/60 font-bold uppercase tracking-wide">Ou</span>
                   </div>
                 </div>
 
-                <Button 
+                <button
                   type="button"
-                  variant="outline"
                   onClick={handleGoogleLogin}
                   disabled={loading}
-                  className="w-full border-white/20 text-white hover:bg-white/10"
+                  className="w-full flex items-center justify-center gap-3 bg-white/90 hover:bg-white border border-white/30 rounded-2xl px-6 py-3.5 font-black text-sand-900 uppercase text-sm tracking-tight transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
                 >
-                  <Chrome className="w-5 h-5 mr-2" />
+                  <Chrome className="w-5 h-5" />
                   Google
-                </Button>
+                </button>
               </form>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
+            )}
 
-      {/* Footer */}
-      <div className="p-4 text-center">
-        <p className="text-xs text-gray-600">
-          Ao continuar, você concorda com nossos Termos de Serviço e Política de Privacidade
-        </p>
+            {/* Footer Note */}
+            <p className="mt-6 text-center text-xs text-white/60 font-medium">
+              Bem-vindo à comunidade mais vibrante de Beach Tennis
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

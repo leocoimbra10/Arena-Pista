@@ -44,60 +44,60 @@ export function HomeSection({ onNavigate }: { onNavigate?: (tab: string) => void
 
 
   return (
-    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
-      {/* Header - Exact Reference Match */}
-      <div className="bg-white px-4 pt-4 pb-3 sticky top-0 z-50 shadow-sm">
+    <div className="min-h-screen pb-24 bg-sand-50 dark:bg-sand-dark-50">
+      {/* Beach Premium Header - Glassmorphism */}
+      <div className="glass-beach px-6 py-4 sticky top-0 z-50 rounded-none md:rounded-3xl md:mx-6 md:mt-4 shadow-card">
         {/* Line 1: User Info + Badge + Notifications */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <img
               src={userData?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.id}`}
               alt="Avatar"
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full border-2 border-white shadow-card"
             />
             <div>
               <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-xs font-bold text-[#FF6B35] uppercase tracking-wide px-2 py-0.5 bg-[#FF6B35]/10 rounded">
+                <span className="text-xs font-black text-coral-500 dark:text-coral-dark uppercase tracking-tight px-2 py-0.5 bg-coral-500/10 dark:bg-coral-dark/10 rounded-xl">
                   CHALLENGER
                 </span>
-                <span className="text-[10px] text-gray-400">0</span>
+                <span className="text-[10px] text-sand-400 dark:text-sand-dark-400 font-bold">0</span>
               </div>
-              <p className="text-sm font-semibold text-gray-900">{userData?.nome || 'Márcio Leonardo Coimbra'}</p>
+              <p className="text-sm font-black text-sand-900 dark:text-sand-dark-900 tracking-tight">{userData?.nome || 'Márcio Leonardo Coimbra'}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="p-2">
-              <Users className="w-5 h-5 text-gray-600" />
+            <button className="p-2.5 rounded-xl hover:bg-sand-100 dark:hover:bg-sand-dark-100 transition-colors">
+              <Users className="w-5 h-5 text-teal-600 dark:text-teal-dark" />
             </button>
             <button
               onClick={() => setShowNotifications(true)}
-              className="p-2 relative">
-              <Bell className="w-5 h-5 text-gray-600" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+              className="p-2.5 rounded-xl hover:bg-sand-100 dark:hover:bg-sand-dark-100 transition-colors relative">
+              <Bell className="w-5 h-5 text-teal-600 dark:text-teal-dark" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-coral-500 dark:bg-coral-dark rounded-full animate-pulse" />
             </button>
           </div>
         </div>
 
-        {/* Line 2: Navigation Pills */}
-        <div className="flex items-center gap-2 mb-4">
+        {/* Line 2: Navigation Pills - Beach Premium */}
+        <div className="flex items-center gap-2 mb-4 overflow-x-auto hide-scrollbar">
           <button
             onClick={() => setActiveTab('tracker')}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeTab === 'tracker'
-              ? 'bg-gray-900 text-white'
-              : 'bg-gray-100 text-gray-600'
+            className={`px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-tight transition-all whitespace-nowrap ${activeTab === 'tracker'
+              ? 'bg-teal-600 dark:bg-teal-dark text-white shadow-button-teal'
+              : 'bg-sand-100 dark:bg-sand-dark-200 text-sand-900 dark:text-sand-dark-900'
               }`}
           >
             AGENDA
           </button>
           <button
             onClick={() => onNavigate?.('jogos')}
-            className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide bg-gray-900 text-white transition-all"
+            className="px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-tight bg-coral-500 dark:bg-coral-dark text-white transition-all shadow-button-coral whitespace-nowrap"
           >
             JOGOS
           </button>
           <button
             onClick={() => setActiveTab('torneios')}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeTab === 'torneios'
+            className={`px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-tight transition-all whitespace-nowrap ${activeTab === 'torneios'
               ? 'bg-gray-900 text-white'
               : 'bg-gray-100 text-gray-600'
               }`}

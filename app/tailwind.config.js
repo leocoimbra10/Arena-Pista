@@ -1,63 +1,99 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ['class'], // Enable dark mode with class toggle
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        // Beach Premium Color System - World Class Design
+        sand: {
+          50: '#FDFCF8',   // Background base - warm off-white like beach sand
+          100: '#FAF8F5',  // Subtle variation
+          200: '#E5E1DC',  // Border subtle
+          400: '#A8A29E',  // Secondary text - warm gray
+          900: '#422006',  // Primary text - deep coffee brown (NO pure black)
+        },
+        teal: {
+          DEFAULT: '#0D9488', // Primary actions - elegant deep turquoise
+          500: '#0D9488',
+          600: '#0D9488',
+        },
+        coral: {
+          DEFAULT: '#F97316', // Accent/CTA - sunset orange
+          500: '#F97316',
+        },
+        white: '#FFFFFF',  // Pure white for cards
+
+        // Dark Mode - Beach Nocturnal Theme
+        'sand-dark': {
+          50: '#1A1612',   // Dark sand base - deep coffee night
+          100: '#2D2419',  // Slightly lighter
+          200: '#3D3128',  // Border dark
+          400: '#8B7E74',  // Secondary text dark
+          900: '#F5E6D3',  // Primary text dark (light sand for dark bg)
+        },
+        'teal-dark': {
+          DEFAULT: '#14B8A6', // Brighter teal for dark mode
+          500: '#14B8A6',
+          600: '#14B8A6',
+        },
+        'coral-dark': {
+          DEFAULT: '#FB923C', // Brighter coral for dark mode
+          500: '#FB923C',
+        },
+
+        // Legacy shadcn compatibility (mapped to Beach Premium)
+        border: '#E5E1DC',
+        input: '#E5E1DC',
+        ring: '#0D9488',
+        background: '#FDFCF8',
+        foreground: '#422006',
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: '#0D9488',
+          foreground: '#FFFFFF',
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: '#F97316',
+          foreground: '#FFFFFF',
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
-          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
+          DEFAULT: 'hsl(0 84% 60%)',
+          foreground: '#FFFFFF',
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: '#FAF8F5',
+          foreground: '#A8A29E',
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: '#F97316',
+          foreground: '#FFFFFF',
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: '#FFFFFF',
+          foreground: '#422006',
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+          DEFAULT: '#FFFFFF',
+          foreground: '#422006',
         },
       },
       borderRadius: {
-        xl: "calc(var(--radius) + 4px)",
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        xs: "calc(var(--radius) - 6px)",
+        '2xl': '16px',  // Buttons - super rounded
+        '3xl': '24px',  // Cards & Modals - premium rounded corners
+        xl: '12px',
+        lg: '8px',
+        md: '6px',
+        sm: '4px',
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        // High-fidelity shadows with subtle color tints
+        'card': '0 8px 30px rgba(0, 0, 0, 0.04)',              // Soft diffuse shadow for cards
+        'button-teal': '0 4px 14px 0 rgba(13, 148, 136, 0.39)', // Teal glow for primary buttons
+        'button-coral': '0 4px 14px 0 rgba(249, 115, 22, 0.39)', // Coral glow for accent buttons
+        'xs': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+      },
+      letterSpacing: {
+        'tight': '-0.01em',  // Typography optimization
       },
       keyframes: {
         "accordion-down": {
