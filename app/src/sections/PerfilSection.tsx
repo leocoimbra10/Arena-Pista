@@ -48,6 +48,10 @@ export function PerfilSection() {
   const [selectedStat, setSelectedStat] = useState<{ label: string; icon: any; color: string } | null>(null);
   const [searchPartner, setSearchPartner] = useState('');
 
+  // Privacy & Account settings state
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+
   const mockMatches = [
     { id: '1', date: '25/Jan', opponent: 'Ricardo M.', result: 'vitoria', score: '6/2', type: 'Challenge' },
     { id: '2', date: '20/Jan', opponent: 'Ana P.', result: 'vitoria', score: '6/4', type: 'Torneio' },
@@ -623,15 +627,31 @@ export function PerfilSection() {
                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Segurança</p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-gray-700">Notificações Push</span>
-                  <div className="w-10 h-5 bg-teal-500 rounded-full relative shadow-inner">
-                    <div className="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow-md"></div>
-                  </div>
+                  <button
+                    onClick={() => {
+                      setNotificationsEnabled(!notificationsEnabled);
+                      toast.success(notificationsEnabled ? 'Notificações desativadas' : 'Notificações ativadas');
+                    }}
+                    className={`w-10 h-5 rounded-full relative shadow-inner transition-colors ${notificationsEnabled ? 'bg-teal-500' : 'bg-gray-300'
+                      }`}
+                  >
+                    <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-md transition-all ${notificationsEnabled ? 'right-0.5' : 'left-0.5'
+                      }`}></div>
+                  </button>
                 </div>
-                <div className="flex items-center justify-between opacity-50">
+                <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-gray-700">Autenticação 2FA</span>
-                  <div className="w-10 h-5 bg-gray-300 rounded-full relative">
-                    <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full"></div>
-                  </div>
+                  <button
+                    onClick={() => {
+                      setTwoFactorEnabled(!twoFactorEnabled);
+                      toast.success(twoFactorEnabled ? '2FA desativado' : '2FA ativado');
+                    }}
+                    className={`w-10 h-5 rounded-full relative shadow-inner transition-colors ${twoFactorEnabled ? 'bg-teal-500' : 'bg-gray-300'
+                      }`}
+                  >
+                    <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-md transition-all ${twoFactorEnabled ? 'right-0.5' : 'left-0.5'
+                      }`}></div>
+                  </button>
                 </div>
               </div>
 
