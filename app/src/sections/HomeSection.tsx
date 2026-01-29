@@ -377,12 +377,12 @@ export function HomeSection({ onNavigate }: { onNavigate?: (tab: string) => void
           </button>
 
           <button
-            onClick={() => onNavigate?.('challenge')}
-            className="w-full rounded-3xl bg-white border border-gray-200 p-4 flex items-center justify-between hover:border-purple-400 transition-colors shadow-sm"
+            onClick={() => onNavigate?.('jogos')}
+            className="w-full rounded-3xl bg-white border border-gray-200 p-4 flex items-center justify-between hover:border-coral-400 transition-colors shadow-sm"
           >
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
-                <UserPlus className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 rounded-xl bg-coral-100 flex items-center justify-center">
+                <UserPlus className="w-6 h-6 text-coral-600" />
               </div>
               <div className="text-left">
                 <p className="text-sm font-black text-gray-900">Encontrar Parceiro</p>
