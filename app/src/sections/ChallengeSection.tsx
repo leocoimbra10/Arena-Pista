@@ -156,7 +156,7 @@ export function ChallengeSection() {
   });
 
   return (
-    <div className="min-h-screen pb-24 bg-[#F7F5F2]">
+    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
       {/* Header Premium */}
       <div className="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 px-4 py-4 sticky top-0 z-10 shadow-sm">
         <h1 className="text-2xl font-black text-gray-900">Challenge</h1>

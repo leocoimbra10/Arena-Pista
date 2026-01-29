@@ -5,9 +5,6 @@ import { format, isSameDay, addDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import {
   Clock,
-  Sun,
-  Moon,
-  Sunrise,
   Palmtree,
   ShieldCheck,
   Check,
@@ -17,6 +14,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 
@@ -101,7 +99,7 @@ export function AgendaSection() {
   };
 
   return (
-    <div className="min-h-screen pb-32 bg-[#F7F5F2]">
+    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
       {/* Date Selector Horizontal Strip */}
       <div className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-20 shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
@@ -140,29 +138,18 @@ export function AgendaSection() {
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Shift Filters */}
-        <div className="flex items-center gap-2">
-          {[
-            { id: 'manha', label: 'Manhã', icon: Sunrise },
-            { id: 'tarde', label: 'Tarde', icon: Sun },
-            { id: 'noite', label: 'Noite', icon: Moon }
-          ].map((shift) => {
-            const ActiveIcon = shift.icon;
-            const active = selectedShift === shift.id;
-            return (
-              <button
-                key={shift.id}
-                onClick={() => setSelectedShift(shift.id as Shift)}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-[11px] font-black uppercase tracking-wider transition-all border ${active
-                  ? 'bg-white border-teal-500 text-teal-600 shadow-sm'
-                  : 'bg-gray-100 border-transparent text-gray-400'
-                  }`}
-              >
-                <ActiveIcon className={`w-3.5 h-3.5 ${active ? 'text-teal-500' : 'text-gray-400'}`} />
-                {shift.label}
-              </button>
-            );
-          })}
+        {/* Shift Filter Dropdown */}
+        <div>
+          <Select value={selectedShift} onValueChange={(v) => setSelectedShift(v as Shift)}>
+            <SelectTrigger className="w-full bg-white border-gray-200 rounded-2xl h-12 font-bold text-gray-700 shadow-sm">
+              <SelectValue placeholder="Selecione o turno" />
+            </SelectTrigger>
+            <SelectContent className="bg-white border-gray-200 rounded-2xl">
+              <SelectItem value="manha" className="font-bold">Manhã</SelectItem>
+              <SelectItem value="tarde" className="font-bold">Tarde</SelectItem>
+              <SelectItem value="noite" className="font-bold">Noite</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Court Listing */}

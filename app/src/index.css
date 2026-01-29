@@ -70,7 +70,7 @@
     @apply text-foreground antialiased;
     font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
-    background: #F7F5F2;
+    background: #F5E6D3;
   }
 
   /* Custom scrollbar */

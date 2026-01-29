@@ -24,7 +24,7 @@ export function RankingSection() {
   const restDuplas = sortedDuplas.slice(3);
 
   return (
-    <div className="min-h-screen pb-24 bg-[#F7F5F2]">
+    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
       {/* Premium Header */}
       <div className="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 px-4 py-4 sticky top-0 z-10 shadow-sm">
         <div className="flex items-center justify-between">

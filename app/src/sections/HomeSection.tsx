@@ -44,89 +44,79 @@ export function HomeSection({ onNavigate }: { onNavigate?: (tab: string) => void
 
 
   return (
-    <div className="min-h-screen pb-24 bg-[#F7F5F2]">
-      {/* Header Premium */}
-      <div className="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 px-4 py-4 sticky top-0 z-10 shadow-sm">
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen pb-24 bg-[#F5E6D3]">
+      {/* Header - Exact Reference Match */}
+      <div className="bg-white px-4 pt-4 pb-3 sticky top-0 z-50 shadow-sm">
+        {/* Line 1: User Info + Badge + Notifications */}
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <img
               src={userData?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.id}`}
               alt="Avatar"
-              className="w-10 h-10 rounded-full border-2 border-teal-400"
+              className="w-10 h-10 rounded-full"
             />
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-orange-600 uppercase tracking-wider px-2 py-0.5 bg-orange-100 rounded-full">
-                  Challenger
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-xs font-bold text-[#FF6B35] uppercase tracking-wide px-2 py-0.5 bg-[#FF6B35]/10 rounded">
+                  CHALLENGER
                 </span>
-                <Award className="w-4 h-4 text-yellow-600" />
+                <span className="text-[10px] text-gray-400">0</span>
               </div>
-              <p className="text-sm font-bold text-gray-700">{userData?.nome || 'Atleta'}</p>
+              <p className="text-sm font-semibold text-gray-900">{userData?.nome || 'Márcio Leonardo Coimbra'}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => console.log('Ver amigos online')}
-              className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors"
-            >
+            <button className="p-2">
               <Users className="w-5 h-5 text-gray-600" />
             </button>
             <button
               onClick={() => setShowNotifications(true)}
-              className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors relative"
-            >
-              <Bell className="w-5 h-5 text-teal-600" />
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center font-bold">
-                3
-              </span>
+              className="p-2 relative">
+              <Bell className="w-5 h-5 text-gray-600" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
             </button>
           </div>
         </div>
-      </div>
 
-      <div className="p-4 space-y-5">
-        {/* Tab Pills - Optimized to fit in one screen */}
-        <div className="flex items-center gap-1.5 w-full px-1">
+        {/* Line 2: Navigation Pills */}
+        <div className="flex items-center gap-2 mb-4">
           <button
             onClick={() => setActiveTab('tracker')}
-            className={`flex-1 py-2 rounded-full text-[10px] font-black tracking-tighter transition-all ${activeTab === 'tracker'
-              ? 'bg-gray-900 text-white shadow-md'
-              : 'bg-white text-gray-500 border border-gray-100'
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeTab === 'tracker'
+              ? 'bg-gray-900 text-white'
+              : 'bg-gray-100 text-gray-600'
               }`}
           >
             AGENDA
           </button>
           <button
-            onClick={() => setActiveTab('lobby')}
-            className={`flex-1 py-2 rounded-full text-[10px] font-black tracking-tighter transition-all ${activeTab === 'lobby'
-              ? 'bg-gray-900 text-white shadow-md'
-              : 'bg-white text-gray-500 border border-gray-100'
-              }`}
+            onClick={() => onNavigate?.('jogos')}
+            className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide bg-gray-900 text-white transition-all"
           >
-            LOBBY
+            JOGOS
           </button>
           <button
             onClick={() => setActiveTab('torneios')}
-            className={`flex-1 py-2 rounded-full text-[10px] font-black tracking-tighter transition-all ${activeTab === 'torneios'
-              ? 'bg-gray-900 text-white shadow-md'
-              : 'bg-white text-gray-500 border border-gray-100'
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeTab === 'torneios'
+              ? 'bg-gray-900 text-white'
+              : 'bg-gray-100 text-gray-600'
               }`}
           >
             TORNEIOS
           </button>
           <button
             onClick={() => setActiveTab('profs')}
-            className={`flex-1 py-2 rounded-full text-[10px] font-black tracking-tighter transition-all ${activeTab === 'profs'
-              ? 'bg-gray-900 text-white shadow-md'
-              : 'bg-white text-gray-500 border border-gray-100'
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeTab === 'profs'
+              ? 'bg-gray-900 text-white'
+              : 'bg-gray-100 text-gray-600'
               }`}
           >
             AULAS
           </button>
         </div>
 
-        {/* Week Calendar */}
-        <div className="flex justify-between items-end gap-1 px-1">
+        {/* Line 3: Week Calendar */}
+        <div className="flex justify-between items-end gap-1">
           {weekDays.map((day, i) => {
             const isActive = day.isActive;
             return (

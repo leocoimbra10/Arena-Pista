@@ -24,8 +24,8 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f0f1a] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#a3e635] animate-spin" />
+      <div className="min-h-screen bg-[#F5E6D3] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
       </div>
     );
   }
@@ -40,7 +40,7 @@ function AppContent() {
         return <HomeSection onNavigate={setActiveTab} />;
       case 'agenda':
         return <AgendaSection />;
-      case 'challenge':
+      case 'jogos':
         return <ChallengeSection />;
       case 'ranking':
         return <RankingSection />;

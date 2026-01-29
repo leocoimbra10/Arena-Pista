@@ -32,7 +32,8 @@ export function RankingCard({ position, item, type, previousPosition }: RankingC
     : `https://api.dicebear.com/7.x/shapes/svg?seed=${dupla?.id}`;
 
   return (
-    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-gray-100 shadow-sm hover:border-teal-200 transition-all group">
+    <div id={`rank-${item.id}`} className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-gray-100 shadow-sm hover:border-teal-200 transition-all group overflow-hidden relative">
+      <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-gray-50/50 to-transparent pointer-events-none" />
       {/* Position */}
       <div className={`flex items-center justify-center w-10 h-10 rounded-xl font-black border-2 transition-colors ${getMedalStyles(position)}`}>
         {position <= 3 ? (
@@ -58,9 +59,16 @@ export function RankingCard({ position, item, type, previousPosition }: RankingC
         </div>
 
         <div className="min-w-0">
-          <p className="text-sm font-black text-gray-900 truncate uppercase tracking-tight">
-            {name}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-black text-gray-900 truncate uppercase tracking-tight">
+              {name}
+            </p>
+            {usuario?.nivel && (
+              <span className="text-[8px] font-black text-white bg-orange-500 px-1 rounded uppercase">
+                Cat {usuario.nivel.charAt(0).toUpperCase()}
+              </span>
+            )}
+          </div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-teal-500 uppercase tracking-wider bg-teal-50 px-1.5 rounded">
               {wins} Vitórias

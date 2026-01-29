@@ -22,6 +22,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export function AdminSection() {
     const [activeTab, setActiveTab] = useState<'financeiro' | 'quadras' | 'usuarios' | 'professores'>('financeiro');
@@ -31,7 +32,6 @@ export function AdminSection() {
     const [showUserEditDialog, setShowUserEditDialog] = useState(false);
     const [showChargeDialog, setShowChargeDialog] = useState(false);
     const [showProfessorDialog, setShowProfessorDialog] = useState(false);
-    const [showModulePicker, setShowModulePicker] = useState(false);
     const [showTeacherAgenda, setShowTeacherAgenda] = useState(false);
     const [selectedProfessorForAgenda, setSelectedProfessorForAgenda] = useState<Professor | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -183,96 +183,43 @@ export function AdminSection() {
     };
 
     return (
-        <div className="min-h-screen pb-24 bg-[#F7F5F2]">
-            {/* Premium Header Admin */}
-            <div className="bg-[#0f172a] text-white px-6 pb-12 pt-10 rounded-b-[50px] shadow-2xl relative">
-                {/* Decorative Elements */}
-                <div className="absolute inset-0 rounded-b-[50px] overflow-hidden pointer-events-none">
-                    <div className="absolute top-[-50px] right-[-50px] w-40 h-40 bg-teal-500/10 rounded-full blur-[80px]" />
-                    <div className="absolute bottom-[-50px] left-[-50px] w-40 h-40 bg-indigo-500/10 rounded-full blur-[80px]" />
-                </div>
-
-                <div className="flex items-center justify-between mb-8 relative z-10">
+        <div className="min-h-screen pb-24 bg-[#F5E6D3]">
+            {/* Clean Minimalist Header */}
+            <div className="bg-gradient-to-b from-[#FDFAF5] to-white border-b border-gray-200 px-6 py-6 sticky top-0 z-20">
+                <div className="flex items-center justify-between mb-4">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
-                            <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-                            <span className="text-[10px] text-teal-400 font-black uppercase tracking-[0.3em]">Ambiente Seguro</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                            <span className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Admin</span>
                         </div>
-                        <h1 className="text-3xl font-black uppercase tracking-tighter">Painel <span className="text-teal-400">Pista</span></h1>
-                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] mt-1">Gestão Inteligente da Arena</p>
+                        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Painel Arena</h1>
                     </div>
-                    <div className="w-14 h-14 bg-gradient-to-br from-teal-400 to-teal-600 rounded-[22px] flex items-center justify-center shadow-[0_10px_25px_-5px_rgba(20,184,166,0.5)] transform rotate-6 border-4 border-white/10">
-                        <ShieldCheck className="w-7 h-7 text-white" />
+                    <div className="w-11 h-11 bg-gray-100 rounded-2xl flex items-center justify-center">
+                        <ShieldCheck className="w-5 h-5 text-gray-600" />
                     </div>
                 </div>
 
-                {/* Modern Module Selector (Switch) */}
-                <div className="relative z-20">
-                    <button
-                        onClick={() => setShowModulePicker(!showModulePicker)}
-                        className={`w-full bg-white/5 border border-white/10 p-5 rounded-[28px] flex items-center justify-between transition-all duration-300 ${showModulePicker ? 'bg-white/10 border-white/20 ring-4 ring-teal-500/10' : 'hover:bg-white/[0.07]'}`}
-                    >
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center border border-white/10 shadow-2xl group-hover:border-teal-500/50 transition-all">
-                                {activeTab === 'financeiro' && <DollarSign className="w-6 h-6 text-teal-400" />}
-                                {activeTab === 'usuarios' && <Users className="w-6 h-6 text-teal-400" />}
-                                {activeTab === 'professores' && <GraduationCap className="w-6 h-6 text-teal-400" />}
-                                {activeTab === 'quadras' && <Palmtree className="w-6 h-6 text-teal-400" />}
-                            </div>
-                            <div className="text-left">
-                                <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">Visão Atual</p>
-                                <h2 className="text-xl font-black uppercase tracking-tight text-white leading-none">
-                                    {activeTab === 'financeiro' && 'Financeiro'}
-                                    {activeTab === 'usuarios' && 'Atletas'}
-                                    {activeTab === 'professores' && 'Professores'}
-                                    {activeTab === 'quadras' && 'Quadras'}
-                                </h2>
-                            </div>
-                        </div>
-                        <div className={`w-10 h-10 rounded-full bg-white/5 flex items-center justify-center transition-all duration-500 ${showModulePicker ? 'rotate-180 bg-teal-500 text-white shadow-[0_0_20px_rgba(20,184,166,0.4)]' : 'text-gray-400'}`}>
-                            <ChevronDown className="w-5 h-5" />
-                        </div>
-                    </button>
-
-                    {/* Module Picker Dropdown */}
-                    {showModulePicker && (
-                        <>
-                            <div
-                                className="fixed inset-0 z-10"
-                                onClick={() => setShowModulePicker(false)}
-                            />
-                            <div className="absolute top-full left-0 right-0 mt-4 bg-[#1a1a2e]/95 border border-white/10 backdrop-blur-2xl rounded-[35px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-20 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 ring-1 ring-white/10">
-                                <div className="p-3 grid grid-cols-1 gap-1">
-                                    {[
-                                        { id: 'financeiro', label: 'Financeiro', icon: DollarSign, desc: 'Fluxo de caixa e pendências', color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-                                        { id: 'usuarios', label: 'Atletas', icon: Users, desc: 'Gestão de membros e mensalistas', color: 'text-blue-400', bg: 'bg-blue-400/10' },
-                                        { id: 'professores', label: 'Professores', icon: GraduationCap, desc: 'Agenda de aulas e comissões', color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
-                                        { id: 'quadras', label: 'Quadras', icon: Palmtree, desc: 'Configuração de infraestrutura', color: 'text-teal-400', bg: 'bg-teal-400/10' }
-                                    ].map((tab) => (
-                                        <button
-                                            key={tab.id}
-                                            onClick={() => {
-                                                setActiveTab(tab.id as any);
-                                                setShowModulePicker(false);
-                                            }}
-                                            className={`w-full flex items-center gap-4 p-4 rounded-[24px] transition-all duration-200 ${activeTab === tab.id ? 'bg-white/10 shadow-inner' : 'hover:bg-white/5'}`}
-                                        >
-                                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border border-white/10 ${activeTab === tab.id ? 'bg-teal-500 text-white shadow-lg' : 'bg-gray-900 text-gray-400'}`}>
-                                                <tab.icon className="w-6 h-6" />
-                                            </div>
-                                            <div className="text-left flex-1">
-                                                <p className={`text-[11px] font-black uppercase tracking-widest ${activeTab === tab.id ? 'text-teal-400' : 'text-white'}`}>{tab.label}</p>
-                                                <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter mt-0.5">{tab.desc}</p>
-                                            </div>
-                                            {activeTab === tab.id && (
-                                                <div className="w-1.5 h-6 bg-teal-500 rounded-full shadow-[0_0_15px_rgba(20,184,166,0.6)]" />
-                                            )}
-                                        </button>
-                                    ))}
+                {/* Module Selector - Clean Dropdown */}
+                <div>
+                    <Select value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
+                        <SelectTrigger className="w-full bg-white border-gray-200 rounded-2xl h-14 font-bold text-gray-900 shadow-sm">
+                            <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center">
+                                    {activeTab === 'financeiro' && <DollarSign className="w-4 h-4 text-gray-600" />}
+                                    {activeTab === 'usuarios' && <Users className="w-4 h-4 text-gray-600" />}
+                                    {activeTab === 'professores' && <GraduationCap className="w-4 h-4 text-gray-600" />}
+                                    {activeTab === 'quadras' && <Palmtree className="w-4 h-4 text-gray-600" />}
                                 </div>
+                                <SelectValue />
                             </div>
-                        </>
-                    )}
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 rounded-2xl">
+                            <SelectItem value="financeiro" className="font-bold">Financeiro</SelectItem>
+                            <SelectItem value="usuarios" className="font-bold">Atletas</SelectItem>
+                            <SelectItem value="professores" className="font-bold">Professores</SelectItem>
+                            <SelectItem value="quadras" className="font-bold">Quadras</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
 
@@ -283,38 +230,38 @@ export function AdminSection() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Buscar atleta pelo nome..."
+                            placeholder="Buscar atleta..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-teal-500 transition-all outline-none shadow-sm"
+                            className="w-full bg-white border border-gray-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-medium text-gray-900 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500/50 transition-all outline-none placeholder:text-gray-400"
                         />
                     </div>
                 )}
 
                 {activeTab === 'financeiro' && (
                     <div className="space-y-4">
-                        <h2 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] px-2 mb-2">Pagamentos Pendentes</h2>
+                        <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider px-1">Pagamentos Pendentes</h2>
                         {pagamentos?.filter(p => p.status === 'pendente').map(pag => (
-                            <div key={pag.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between">
+                            <div key={pag.id} className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-xl shadow-gray-200/20 flex items-center justify-between group hover:border-teal-500/20 transition-all">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                                        <Clock className="w-5 h-5 text-amber-500" />
+                                    <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center border border-orange-100 group-hover:bg-orange-500 group-hover:text-white transition-all">
+                                        <Clock className="w-6 h-6 text-orange-500 group-hover:text-white" />
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-black text-gray-900">{usuarios?.find(u => u.id === pag.usuarioId)?.nome}</h4>
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">{pag.descricao}</p>
+                                        <h4 className="text-sm font-black text-gray-900 leading-none mb-1">{usuarios?.find(u => u.id === pag.usuarioId)?.nome}</h4>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">{pag.descricao}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-5">
                                     <div className="text-right">
-                                        <p className="text-sm font-black text-amber-600">R$ {pag.valor}</p>
-                                        <p className="text-[9px] font-bold text-gray-400 italic">Vence em: {new Date(pag.dataVencimento).toLocaleDateString()}</p>
+                                        <p className="text-lg font-black text-orange-600 leading-none mb-0.5">R$ {pag.valor}</p>
+                                        <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest italic">Vence {new Date(pag.dataVencimento).toLocaleDateString()}</p>
                                     </div>
                                     <button
                                         onClick={() => handleConfirmPayment(pag.id)}
-                                        className="p-2.5 bg-teal-500 text-white rounded-xl hover:bg-teal-600 shadow-md active:scale-95 transition-all text-[10px] font-black uppercase"
+                                        className="h-10 px-5 bg-teal-500 text-white rounded-[20px] hover:bg-teal-600 shadow-lg shadow-teal-500/20 active:scale-95 transition-all text-[10px] font-black uppercase tracking-wider"
                                     >
-                                        Baixa
+                                        Pagar
                                     </button>
                                 </div>
                             </div>
@@ -329,52 +276,64 @@ export function AdminSection() {
                     <div className="space-y-3">
                         <h2 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] px-2 mb-2">Gestão de Alunos</h2>
                         {filteredUsuarios?.map(user => (
-                            <div key={user.id} className="bg-white p-5 rounded-3xl border border-gray-200 shadow-sm">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
-                                            {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : <Users className="w-5 h-5 text-gray-300" />}
+                            <div key={user.id} className="bg-white p-6 rounded-[35px] border-2 border-gray-50 shadow-xl shadow-gray-200/10 hover:border-teal-500/20 transition-all group">
+                                <div className="flex items-center justify-between mb-5">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden border-4 border-white shadow-2xl relative">
+                                            {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : <Users className="w-7 h-7 text-gray-200" />}
+                                            {user.financeiro?.mensalista && (
+                                                <div className="absolute bottom-0 right-0 w-4 h-4 bg-teal-500 rounded-full border-2 border-white flex items-center justify-center">
+                                                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                                                </div>
+                                            )}
                                         </div>
                                         <div>
-                                            <h4 className="text-sm font-black text-gray-900">{user.nome}</h4>
-                                            <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${user.role === 'admin' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-500'}`}>
-                                                {user.role}
-                                            </span>
+                                            <h4 className="text-base font-black text-gray-900 leading-tight">{user.nome}</h4>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <span className="text-[8px] font-black uppercase px-2 py-0.5 rounded-lg bg-gray-100 text-gray-400 tracking-widest border border-gray-200/50">
+                                                    {user.role}
+                                                </span>
+                                                {user.nivel && (
+                                                    <span className="text-[8px] font-black uppercase px-2 py-0.5 rounded-lg bg-teal-50 text-teal-600 tracking-widest border border-teal-100/50">
+                                                        {user.nivel}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col items-end">
-                                        <span className={`text-[10px] font-black px-3 py-1 rounded-full ${user.financeiro?.mensalista ? 'bg-teal-50 text-teal-600' : 'bg-gray-50 text-gray-400'}`}>
+                                    <div className="text-right">
+                                        <span className={`text-[9px] font-black px-3 py-1.5 rounded-xl border ${user.financeiro?.mensalista ? 'bg-teal-500 text-white border-teal-400 shadow-lg shadow-teal-500/20' : 'bg-white text-gray-400 border-gray-100 uppercase tracking-widest font-black'}`}>
                                             {user.financeiro?.mensalista ? 'MENSALISTA' : 'AVULSO'}
                                         </span>
                                     </div>
                                 </div>
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2.5">
                                     <button
                                         onClick={() => handleToggleMensalista(user)}
-                                        className="flex-1 py-2.5 bg-gray-900 text-white text-[9px] font-black uppercase tracking-wider rounded-xl shadow-md"
+                                        className={`flex-1 py-3.5 text-[10px] font-black uppercase tracking-widest rounded-[20px] shadow-lg transition-all active:scale-95 ${user.financeiro?.mensalista ? 'bg-gray-100 text-gray-500 shadow-gray-200/20 hover:bg-gray-200' : 'bg-[#0f172a] text-white shadow-slate-900/20 hover:bg-slate-800'}`}
                                     >
-                                        {user.financeiro?.mensalista ? 'Tornar Avulso' : 'Tornar Mensalista'}
+                                        {user.financeiro?.mensalista ? 'Suspender Plano' : 'Ativar Mensalista'}
                                     </button>
                                     <button
                                         onClick={() => {
                                             setSelectedUser(user);
                                             setShowUserEditDialog(true);
                                         }}
-                                        className="p-2.5 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200"
+                                        className="w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-400 rounded-[20px] hover:bg-teal-50 hover:text-teal-600 hover:border-teal-100 border border-transparent transition-all"
                                         title="Editar Perfil"
                                     >
-                                        <Edit className="w-4 h-4" />
+                                        <Edit className="w-4.5 h-4.5" />
                                     </button>
                                     <button
                                         onClick={() => {
                                             setSelectedUser(user);
                                             setShowChargeDialog(true);
                                         }}
-                                        className="p-2.5 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100"
-                                        title="Cobrar Aula"
+                                        className="w-12 h-12 flex items-center justify-center bg-orange-50 text-orange-400 rounded-[20px] hover:bg-orange-500 hover:text-white border border-transparent transition-all shadow-sm"
+                                        title="Lançar Cobrança"
                                     >
-                                        <Plus className="w-4 h-4" />
+                                        <Plus className="w-5 h-5" />
                                     </button>
                                 </div>
                             </div>
@@ -398,38 +357,38 @@ export function AdminSection() {
                         </div>
 
                         {quadras.map(quadra => (
-                            <div key={quadra.id} className="bg-white p-5 rounded-3xl border border-gray-200 shadow-md">
+                            <div key={quadra.id} className="bg-white p-6 rounded-[35px] border border-gray-100 shadow-xl shadow-gray-200/20 group hover:border-teal-500/30 transition-all">
                                 <div className="flex items-start justify-between">
-                                    <div className="flex gap-4">
-                                        <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center">
-                                            <Palmtree className="w-6 h-6 text-teal-600" />
+                                    <div className="flex gap-5">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-teal-50 to-teal-100 rounded-[24px] flex items-center justify-center border border-teal-200 shadow-inner group-hover:from-teal-500 group-hover:to-teal-600 transition-all group-hover:shadow-[0_10px_20px_rgba(20,184,166,0.3)]">
+                                            <Palmtree className="w-8 h-8 text-teal-600 group-hover:text-white transition-all" />
                                         </div>
                                         <div>
-                                            <h3 className="text-sm font-black text-gray-900 uppercase">{quadra.nome}</h3>
-                                            <p className="text-[10px] font-bold text-gray-400 mt-0.5">{quadra.descricao}</p>
+                                            <h3 className="text-base font-black text-gray-900 uppercase tracking-tight mb-1">{quadra.nome}</h3>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed max-w-[180px]">{quadra.descricao}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <span className="block text-sm font-black text-teal-600">R$ {quadra.precoHora}</span>
-                                        <span className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">VALOR BASE</span>
+                                        <p className="text-sm font-black text-gray-400 uppercase tracking-tighter mb-1">Taxa/Hora</p>
+                                        <span className="block text-xl font-black text-teal-600">R$ {quadra.precoHora}</span>
                                     </div>
                                 </div>
 
-                                <div className="flex gap-2 mt-5">
+                                <div className="flex gap-2.5 mt-6">
                                     <button
                                         onClick={() => {
                                             setSelectedQuadra(quadra);
                                             setShowQuadraDialog(true);
                                         }}
-                                        className="flex-1 py-3 bg-gray-50 border border-gray-100 text-gray-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-100 flex items-center justify-center gap-2"
+                                        className="flex-1 py-4 bg-gray-50 border-2 border-transparent text-gray-900 text-[10px] font-black uppercase tracking-[0.2em] rounded-[20px] hover:bg-white hover:border-teal-500 hover:text-teal-600 flex items-center justify-center gap-2.5 transition-all shadow-sm"
                                     >
-                                        <Edit className="w-3.5 h-3.5" /> Editar
+                                        <Edit className="w-4 h-4" /> Detalhes
                                     </button>
                                     <button
                                         onClick={() => toast.info('Funcionalidade de desativar em breve')}
-                                        className="flex-1 py-3 bg-white border border-red-50 text-red-400 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-red-50 flex items-center justify-center gap-2"
+                                        className="w-14 h-14 bg-white border-2 border-gray-50 text-orange-400 rounded-[20px] hover:bg-orange-50 hover:text-orange-500 hover:border-orange-100 flex items-center justify-center transition-all shadow-sm"
                                     >
-                                        <AlertCircle className="w-3.5 h-3.5" /> Desativar
+                                        <AlertCircle className="w-5 h-5" />
                                     </button>
                                 </div>
                             </div>
@@ -453,17 +412,17 @@ export function AdminSection() {
                         </div>
 
                         {professores?.filter(p => p.nome.toLowerCase().includes(searchTerm.toLowerCase())).map(prof => (
-                            <div key={prof.id} className="bg-white p-5 rounded-3xl border border-gray-200 shadow-sm space-y-4">
+                            <div key={prof.id} className="bg-white p-6 rounded-[35px] border border-gray-100 shadow-xl shadow-gray-200/20 space-y-5 hover:border-teal-500/20 transition-all group">
                                 <div className="flex items-start justify-between">
                                     <div className="flex gap-4">
-                                        <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center border-2 border-white shadow-sm overflow-hidden text-indigo-500">
-                                            {prof.avatar ? <img src={prof.avatar} className="w-full h-full object-cover" /> : <GraduationCap className="w-6 h-6" />}
+                                        <div className="w-14 h-14 bg-teal-50 rounded-[22px] flex items-center justify-center border-2 border-white shadow-2xl overflow-hidden text-teal-500 relative">
+                                            {prof.avatar ? <img src={prof.avatar} className="w-full h-full object-cover" /> : <GraduationCap className="w-7 h-7" />}
                                         </div>
                                         <div>
-                                            <h3 className="text-sm font-black text-gray-900 uppercase">{prof.nome}</h3>
-                                            <div className="flex flex-wrap gap-1 mt-1">
+                                            <h3 className="text-base font-black text-gray-900 uppercase tracking-tight">{prof.nome}</h3>
+                                            <div className="flex flex-wrap gap-1.5 mt-2">
                                                 {prof.modalidades.map(mod => (
-                                                    <span key={mod} className="text-[7px] font-black bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full uppercase tracking-tighter">
+                                                    <span key={mod} className="text-[8px] font-black bg-gray-100 text-gray-400 px-2 py-0.5 rounded-lg uppercase tracking-widest border border-gray-200/50">
                                                         {mod}
                                                     </span>
                                                 ))}
@@ -471,29 +430,29 @@ export function AdminSection() {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <span className="block text-sm font-black text-indigo-600">{prof.comissao}%</span>
-                                        <span className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">COMISSÃO</span>
+                                        <span className="block text-xl font-black text-teal-600">{prof.comissao}%</span>
+                                        <span className="text-[7px] font-black text-gray-400 uppercase tracking-widest">COMISSÃO</span>
                                     </div>
                                 </div>
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2.5">
                                     <button
                                         onClick={() => {
                                             setSelectedProfessor(prof);
                                             setShowProfessorDialog(true);
                                         }}
-                                        className="flex-1 py-3 bg-gray-50 border border-gray-100 text-gray-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-100 flex items-center justify-center gap-2"
+                                        className="flex-1 py-4 bg-gray-50 border-2 border-transparent text-gray-900 text-[10px] font-black uppercase tracking-widest rounded-[20px] hover:bg-white hover:border-teal-500 hover:text-teal-600 flex items-center justify-center gap-2.5 transition-all shadow-sm"
                                     >
-                                        <Edit className="w-3.5 h-3.5" /> Editar
+                                        <Edit className="w-4 h-4" /> Perfil
                                     </button>
                                     <button
                                         onClick={() => {
                                             setSelectedProfessorForAgenda(prof);
                                             setShowTeacherAgenda(true);
                                         }}
-                                        className="flex-1 py-3 bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-100 flex items-center justify-center gap-2"
+                                        className="flex-[1.5] py-4 bg-[#0f172a] text-white text-[10px] font-black uppercase tracking-widest rounded-[20px] hover:bg-slate-800 flex items-center justify-center gap-2.5 transition-all shadow-xl shadow-slate-900/20"
                                     >
-                                        <Calendar className="w-3.5 h-3.5" /> Agenda
+                                        <Calendar className="w-4 h-4 text-teal-400" /> Ver Agenda
                                     </button>
                                 </div>
                             </div>
@@ -505,12 +464,15 @@ export function AdminSection() {
             {/* Quadra Dialog */}
             <Dialog open={showQuadraDialog} onOpenChange={setShowQuadraDialog}>
                 <DialogContent className="bg-white border-gray-200 max-w-sm rounded-[32px] overflow-hidden p-0">
-                    <div className="bg-gray-900 p-6 text-white">
-                        <h3 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
-                            <Palmtree className="w-5 h-5 text-teal-400" />
+                    <div className="bg-[#0f172a] p-8 text-white relative overflow-hidden">
+                        <div className="absolute top-[-20%] right-[-20%] w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
+                        <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3 relative z-10">
+                            <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center border border-teal-500/30">
+                                <Palmtree className="w-5 h-5 text-teal-400" />
+                            </div>
                             {selectedQuadra ? 'Editar Quadra' : 'Nova Quadra'}
                         </h3>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Configurações de infraestrutura</p>
+                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mt-3 relative z-10 ml-0.5">Configuração de Infraestrutura</p>
                     </div>
 
                     <form onSubmit={handleSaveQuadra} className="p-6 space-y-4">
@@ -595,12 +557,15 @@ export function AdminSection() {
             {/* Edit User Dialog */}
             <Dialog open={showUserEditDialog} onOpenChange={setShowUserEditDialog}>
                 <DialogContent className="bg-white border-gray-200 max-w-sm rounded-[32px] overflow-hidden p-0">
-                    <div className="bg-gray-900 p-6 text-white">
-                        <h3 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
-                            <Users className="w-5 h-5 text-teal-400" />
+                    <div className="bg-[#0f172a] p-8 text-white relative overflow-hidden">
+                        <div className="absolute top-[-20%] right-[-20%] w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
+                        <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3 relative z-10">
+                            <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center border border-teal-500/30">
+                                <Users className="w-5 h-5 text-teal-400" />
+                            </div>
                             Editar Atleta
                         </h3>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Gestão de perfil e nível</p>
+                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mt-3 relative z-10 ml-0.5">Gestão de Perfil e Acesso</p>
                     </div>
 
                     <form onSubmit={handleSaveUser} className="p-6 space-y-4">
@@ -684,12 +649,15 @@ export function AdminSection() {
             {/* Professor Dialog */}
             <Dialog open={showProfessorDialog} onOpenChange={setShowProfessorDialog}>
                 <DialogContent className="bg-white border-gray-200 max-w-sm rounded-[32px] overflow-hidden p-0">
-                    <div className="bg-indigo-600 p-6 text-white">
-                        <h3 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
-                            <GraduationCap className="w-5 h-5 text-indigo-200" />
+                    <div className="bg-[#0f172a] p-8 text-white relative overflow-hidden">
+                        <div className="absolute top-[-20%] right-[-20%] w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
+                        <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3 relative z-10">
+                            <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center border border-teal-500/30">
+                                <GraduationCap className="w-5 h-5 text-teal-200" />
+                            </div>
                             {selectedProfessor ? 'Editar Professor' : 'Novo Professor'}
                         </h3>
-                        <p className="text-[10px] font-bold text-indigo-100 uppercase tracking-widest mt-1">Cadastro de instrutores e modalidades</p>
+                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mt-3 relative z-10 ml-0.5">Gestão de Instrutores</p>
                     </div>
 
                     <form onSubmit={handleSaveProfessor} className="p-6 space-y-4">
