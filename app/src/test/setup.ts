@@ -15,13 +15,13 @@ vi.mock('firebase/app', () => ({
 
 vi.mock('firebase/firestore', () => ({
     getFirestore: vi.fn(() => ({})),
-    collection: vi.fn((db, name) => ({ _collectionName: name })),
+    collection: vi.fn((_db, name) => ({ _collectionName: name })),
     addDoc: vi.fn(() => Promise.resolve({ id: 'mock-doc-id' })),
     getDocs: vi.fn(() => Promise.resolve({ docs: [] })),
     query: vi.fn((...args) => ({ _query: args })),
     where: vi.fn((field, op, value) => ({ _where: { field, op, value } })),
     orderBy: vi.fn((field, direction) => ({ _orderBy: { field, direction } })),
-    onSnapshot: vi.fn((query, onNext, onError) => {
+    onSnapshot: vi.fn((_query, onNext) => {
         // Simulate successful snapshot with empty data
         const mockSnapshot = {
             docs: [],
@@ -35,7 +35,7 @@ vi.mock('firebase/firestore', () => ({
         // Return unsubscribe function
         return vi.fn()
     }),
-    doc: vi.fn((db, collection, id) => ({ _doc: { collection, id } })),
+    doc: vi.fn((_db, collection, id) => ({ _doc: { collection, id } })),
     updateDoc: vi.fn(() => Promise.resolve()),
     deleteDoc: vi.fn(() => Promise.resolve()),
     Timestamp: {
@@ -49,7 +49,7 @@ vi.mock('firebase/auth', () => ({
     signInWithEmailAndPassword: vi.fn(),
     createUserWithEmailAndPassword: vi.fn(),
     signOut: vi.fn(),
-    onAuthStateChanged: vi.fn((auth, callback) => {
+    onAuthStateChanged: vi.fn((_auth, callback) => {
         callback(null) // No user by default
         return vi.fn() // unsubscribe
     }),

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useCollection, useQuadras } from '@/hooks/useFirestore';
-import * as firestore from 'firebase/firestore';
+
 
 
 // Mock Firestore
