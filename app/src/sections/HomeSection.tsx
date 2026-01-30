@@ -221,25 +221,30 @@ export function HomeSection({ onNavigate }: { onNavigate?: (tab: string) => void
                 </div>
               </div>
 
-              {/* Saldo Clube - Amber */}
-              <div className="p-5 rounded-3xl bg-white border-l-4 border-amber-500 shadow-clay cursor-default lift-hover">
+              {/* Minhas Reservas - Purple with Highlight */}
+              <div
+                onClick={() => onNavigate?.('agenda')}
+                className="p-5 rounded-3xl bg-gradient-to-br from-purple-500 to-purple-600 border-l-4 border-purple-700 shadow-purple cursor-pointer lift-hover relative overflow-hidden"
+              >
+                {/* Highlight badge */}
+                <div className="absolute top-3 right-3 px-2 py-1 bg-yellow-400 rounded-lg">
+                  <span className="text-[8px] font-black text-purple-900 uppercase">Novo</span>
+                </div>
+
                 <div className="flex items-start justify-between mb-3">
-                  <Award className="w-16 h-16 text-amber-500" />
+                  <CalendarIcon className="w-16 h-16 text-white" />
                 </div>
-                <p className="font-condensed text-[11px] font-bold text-amber-600 uppercase tracking-wide mb-1">Saldo Clube</p>
+                <p className="font-condensed text-[11px] font-bold text-purple-100 uppercase tracking-wide mb-1">Minhas Reservas</p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-sm font-black text-slate-600">R$</span>
-                  <span className="font-condensed text-3xl font-black text-slate-900">150</span>
+                  <span className="font-condensed text-3xl font-black text-white">3</span>
+                  <span className="text-sm font-black text-purple-100">ativas</span>
                 </div>
-                <p
-                  onClick={() => onNavigate?.('perfil')}
-                  className="text-xs font-semibold text-blue-600 mb-3 underline cursor-pointer hover:text-blue-700 transition-colors"
-                >
-                  Recarregar
+                <p className="text-xs font-semibold text-purple-100 mb-3">
+                  Ver histórico completo
                 </p>
-                <div className="flex items-center gap-2 text-slate-500">
-                  <Activity className="w-4 h-4" />
-                  <span className="text-[10px] font-semibold">≈ 3 Partidas</span>
+                <div className="flex items-center gap-2 text-purple-100">
+                  <Clock className="w-4 h-4" />
+                  <span className="text-[10px] font-semibold">Próxima: Hoje 15h</span>
                 </div>
               </div>
             </div>
