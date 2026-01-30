@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,101 +10,128 @@
   }
 
   body {
-    /* Beach Premium Typography - Award-winning quality */
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    /* Sporty Typography - Athletic & Energetic */
+    font-family: 'Barlow', 'Inter', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.01em;
-    /* Tight tracking for modern feel */
 
-    /* Beach Premium Colors - Pixel Perfect */
-    background: #FDFCF8;
-    /* bg-sand-50 - warm sand base, NOT white */
-    color: #422006;
-    /* text-sand-900 - deep coffee brown, NO pure black */
+    /* Claymorphism Colors - Vibrant & Fun */
+    background: #F8FAFC;
+    /* slate-50 */
+    color: #1E293B;
+    /* slate-800 */
 
     @apply antialiased;
     min-height: 100vh;
   }
 
-  /* Custom scrollbar */
+  /* Headings use Barlow Condensed for athletic feel */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Barlow Condensed', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* Custom scrollbar - Blue theme */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(241, 245, 249, 0.5);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--ocean-blue) / 0.3);
+    background: rgba(59, 130, 246, 0.3);
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--ocean-blue) / 0.5);
+    background: rgba(59, 130, 246, 0.5);
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-[hsl(var(--sand-yellow))] to-[hsl(var(--sunset-orange))] bg-clip-text text-transparent;
+
+  /* Claymorphism Card - Chunky & Playful */
+  .clay-card {
+    @apply rounded-3xl bg-white border-4 transition-all duration-200;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.4);
   }
 
-  .text-gradient-ocean {
-    @apply bg-gradient-to-r from-[hsl(var(--ocean-blue))] to-[hsl(var(--wave-teal))] bg-clip-text text-transparent;
+  .clay-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), inset 0 2px 6px rgba(255, 255, 255, 0.3);
   }
 
-  .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  /* Claymorphism Button - Energetic */
+  .clay-button {
+    @apply rounded-2xl px-6 py-3.5 font-semibold border-3 transition-all duration-200 cursor-pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   }
 
-  .glass-beach {
-    /* Premium Glassmorphism - Real blur effect for floating elements */
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    /* Safari support */
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  .clay-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] hover:shadow-2xl;
+  .clay-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .card-beach {
-    @apply rounded-3xl bg-gradient-to-br p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl;
+  /* Text Gradients - Vibrant */
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent;
   }
 
-  .btn-beach {
-    @apply rounded-2xl px-6 py-3 font-semibold transition-all duration-200 hover:scale-105 active:scale-95;
+  .text-gradient-emerald {
+    @apply bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent;
   }
 
+  .text-gradient-orange {
+    @apply bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent;
+  }
+
+  /* Hide Scrollbar */
   .hide-scrollbar {
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
   }
 
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
-    /* Chrome, Safari and Opera */
+  }
+
+  /* Spring Effect - For CTAs */
+  .spring-hover:hover {
+    animation: spring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Lift Effect - For Cards */
+  .lift-hover:hover {
+    animation: lift 0.2s ease-out forwards;
   }
 }
 
-/* Calendar customization */
+/* Calendar customization - Blue theme */
 .rdp {
-  --rdp-accent-color: #a3e635;
-  --rdp-background-color: rgba(163, 230, 53, 0.2);
+  --rdp-accent-color: #3B82F6;
+  --rdp-background-color: rgba(59, 130, 246, 0.1);
 }
 
 .rdp-day_selected {
-  background-color: #a3e635 !important;
-  color: #000 !important;
+  background-color: #3B82F6 !important;
+  color: #fff !important;
 }
 
 .rdp-day:hover {
-  background-color: rgba(163, 230, 53, 0.2) !important;
+  background-color: rgba(59, 130, 246, 0.1) !important;
 }
 
 /* Animation keyframes */
@@ -130,12 +159,28 @@
   }
 }
 
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
 
 .animate-slideUp {
   animation: slideUp 0.4s ease-out;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Mobile optimizations */
@@ -149,5 +194,17 @@
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

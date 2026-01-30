@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { EmptyState } from '@/components/EmptyState';
 import { useCollection, useQuadras, useAgendamentos } from '@/hooks/useFirestore';
 import { format, isSameDay, addDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -293,7 +294,12 @@ export function AdminSection() {
                             </div>
                         ))}
                         {pagamentos?.filter(p => p.status === 'pendente').length === 0 && (
-                            <p className="text-center py-12 text-sm text-sand-400 dark:text-sand-dark-400 italic">Nenhum pagamento pendente no momento.</p>
+                            <EmptyState
+                                icon={DollarSign}
+                                title="Tudo em dia!"
+                                description="Nenhum pagamento pendente encontrado no sistema no momento."
+                                color="emerald"
+                            />
                         )}
                     </div>
                 )}
@@ -490,7 +496,7 @@ export function AdminSection() {
             {/* Quadra Dialog */}
             <Dialog open={showQuadraDialog} onOpenChange={setShowQuadraDialog}>
                 <DialogContent className="bg-white border-gray-200 max-w-sm rounded-[32px] overflow-hidden p-0">
-                    <div className="bg-[#0f172a] p-8 text-white relative overflow-hidden">
+                    <div className="bg-sand-900 p-8 text-white relative overflow-hidden">
                         <div className="absolute top-[-20%] right-[-20%] w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
                         <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3 relative z-10">
                             <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center border border-teal-500/30">
@@ -583,7 +589,7 @@ export function AdminSection() {
             {/* Edit User Dialog */}
             <Dialog open={showUserEditDialog} onOpenChange={setShowUserEditDialog}>
                 <DialogContent className="bg-white border-gray-200 max-w-sm rounded-[32px] overflow-hidden p-0">
-                    <div className="bg-[#0f172a] p-8 text-white relative overflow-hidden">
+                    <div className="bg-sand-900 p-8 text-white relative overflow-hidden">
                         <div className="absolute top-[-20%] right-[-20%] w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
                         <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3 relative z-10">
                             <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center border border-teal-500/30">
@@ -675,7 +681,7 @@ export function AdminSection() {
             {/* Professor Dialog */}
             <Dialog open={showProfessorDialog} onOpenChange={setShowProfessorDialog}>
                 <DialogContent className="bg-white border-gray-200 max-w-sm rounded-[32px] overflow-hidden p-0">
-                    <div className="bg-[#0f172a] p-8 text-white relative overflow-hidden">
+                    <div className="bg-sand-900 p-8 text-white relative overflow-hidden">
                         <div className="absolute top-[-20%] right-[-20%] w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
                         <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3 relative z-10">
                             <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center border border-teal-500/30">

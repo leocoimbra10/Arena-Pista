@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
-        await fetchUserData(firebaseUser.uid);
+        await ensureUserDocument(firebaseUser);
       } else {
         setUserData(null);
       }
@@ -64,27 +64,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const fetchUserData = async (uid: string) => {
+  const ensureUserDocument = async (firebaseUser: FirebaseUser) => {
     try {
-      const docRef = doc(db, 'users', uid);
+      const docRef = doc(db, 'users', firebaseUser.uid);
       const docSnap = await getDoc(docRef);
+
+      // Determine expected role from whitelist
+      const expectedRole = getRoleFromEmail(firebaseUser.email);
+
       if (docSnap.exists()) {
         const data = docSnap.data();
+        const currentRole = data.role || 'atleta';
+
+        // Check if role needs update (Promotion only for safety, or strict sync?)
+        // Let's do strict sync to allow simple admin removal via env var
+        const shouldUpdateRole = currentRole !== expectedRole;
+
+        if (shouldUpdateRole) {
+          console.log(`[Auth] Updating user role from ${currentRole} to ${expectedRole}`);
+          await setDoc(docRef, { role: expectedRole }, { merge: true });
+        }
+
         setUserData({
-          id: uid,
+          id: firebaseUser.uid,
           ...data,
-          role: data.role || 'atleta', // Use actual role from database, default to 'atleta'
+          role: shouldUpdateRole ? expectedRole : currentRole,
           createdAt: data.createdAt?.toDate(),
         } as Usuario);
+
+      } else {
+        // Create new user document
+        const newUser: Partial<Usuario> = {
+          nome: firebaseUser.displayName || 'Usuário',
+          email: firebaseUser.email || '',
+          avatar: firebaseUser.photoURL || undefined,
+          role: expectedRole,
+          nivel: 'iniciante',
+          pontuacaoAtual: 0,
+          posicaoRanking: 0,
+          estatisticas: {
+            vitorias: 0,
+            derrotas: 0,
+            jogos: 0,
+            winRate: 0,
+          },
+          createdAt: new Date(),
+        };
+
+        await setDoc(docRef, newUser);
+        setUserData({ id: firebaseUser.uid, ...newUser } as Usuario);
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('Error syncing user data:', error);
     }
   };
 
   const refreshUserData = async () => {
     if (user) {
-      await fetchUserData(user.uid);
+      await ensureUserDocument(user);
     }
   };
 
@@ -94,49 +131,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const firebaseUser = result.user;
-
-    // Check if user exists in Firestore
-    const docRef = doc(db, 'users', firebaseUser.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (!docSnap.exists()) {
-      // Auto-assign role based on email whitelists
-      const role = getRoleFromEmail(firebaseUser.email);
-
-      // Create new user document
-      const newUser: Partial<Usuario> = {
-        nome: firebaseUser.displayName || 'Usuário',
-        email: firebaseUser.email || '',
-        avatar: firebaseUser.photoURL || undefined,
-        role, // Auto-assigned based on email whitelist
-        nivel: 'iniciante',
-        pontuacaoAtual: 0,
-        posicaoRanking: 0,
-        estatisticas: {
-          vitorias: 0,
-          derrotas: 0,
-          jogos: 0,
-          winRate: 0,
-        },
-        createdAt: new Date(),
-      };
-      await setDoc(docRef, newUser);
+    try {
+      await signInWithPopup(auth, provider);
+      // Logic for user doc creation is now handled by onAuthStateChanged -> ensureUserDocument
+    } catch (error: any) {
+      if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+        const { signInWithRedirect } = await import('firebase/auth');
+        await signInWithRedirect(auth, provider);
+      } else {
+        throw error;
+      }
     }
   };
 
   const register = async (email: string, password: string, nome: string) => {
     const result = await createUserWithEmailAndPassword(auth, email, password);
-    const firebaseUser = result.user;
+    // User doc creation handled by onAuthStateChanged -> ensureUserDocument
+    // However, for manual register we want to force the 'nome' provided in the form
+    // The onAuthStateChanged will fire, but we can pre-emptively write the doc here with the correct name
+    // before ensureUserDocument runs (or it will see it exists and just read it).
 
-    // Auto-assign role based on email whitelists
+    // Actually, ensureUserDocument uses displayName. For email/pass, displayName is null initially.
+    // So we MUST write the doc here for Email/Pass registration to capture the 'nome'.
+
+    const firebaseUser = result.user;
     const role = getRoleFromEmail(email);
 
     const newUser: Partial<Usuario> = {
       nome,
       email,
-      role, // Auto-assigned based on email whitelist
+      role,
       nivel: 'iniciante',
       pontuacaoAtual: 0,
       posicaoRanking: 0,

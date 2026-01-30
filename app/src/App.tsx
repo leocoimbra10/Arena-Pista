@@ -47,7 +47,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-sand-50 dark:bg-sand-dark-50">
+    <div className="min-h-screen bg-slate-50">
       {renderSection()}
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
     </div>

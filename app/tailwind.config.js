@@ -1,101 +1,174 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ['class'], // Enable dark mode with class toggle
+  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      // Claymorphism Color System - Sporty & Energetic
       colors: {
-        // Beach Premium Color System - World Class Design
-        sand: {
-          50: '#FDFCF8',   // Background base - warm off-white like beach sand
-          100: '#FAF8F5',  // Subtle variation
-          200: '#E5E1DC',  // Border subtle
-          400: '#A8A29E',  // Secondary text - warm gray
-          900: '#422006',  // Primary text - deep coffee brown (NO pure black)
+        // Primary - Blue Energy
+        blue: {
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#60A5FA',
+          500: '#3B82F6',  // PRIMARY
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
+        },
+        // Secondary - Emerald Sport
+        emerald: {
+          50: '#ECFDF5',
+          100: '#D1FAE5',
+          200: '#A7F3D0',
+          300: '#6EE7B7',
+          400: '#34D399',
+          500: '#10B981',  // SECONDARY
+          600: '#059669',
+          700: '#047857',
+          800: '#065F46',
+          900: '#064E3B',
+        },
+        // Accent - Orange Vibrant
+        orange: {
+          50: '#FFF7ED',
+          100: '#FFEDD5',
+          200: '#FED7AA',
+          300: '#FDBA74',
+          400: '#FB923C',
+          500: '#F97316',  // ACCENT/CTA
+          600: '#EA580C',
+          700: '#C2410C',
+          800: '#9A3412',
+          900: '#7C2D12',
+        },
+        // Neutrals - Slate (Clean & Professional)
+        slate: {
+          50: '#F8FAFC',   // Background
+          100: '#F1F5F9',  // Light bg
+          200: '#E2E8F0',  // Border
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',  // Secondary text
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',  // Primary text
+          900: '#0F172A',
+        },
+        // Additional Colors
+        amber: {
+          500: '#F59E0B',
+          600: '#D97706',
+        },
+        red: {
+          500: '#EF4444',
+          600: '#DC2626',
+        },
+        yellow: {
+          500: '#EAB308',
+          600: '#CA8A04',
         },
         teal: {
-          DEFAULT: '#0D9488', // Primary actions - elegant deep turquoise
-          500: '#0D9488',
+          500: '#14B8A6',
           600: '#0D9488',
         },
-        coral: {
-          DEFAULT: '#F97316', // Accent/CTA - sunset orange
-          500: '#F97316',
-        },
-        white: '#FFFFFF',  // Pure white for cards
 
-        // Dark Mode - Beach Nocturnal Theme
-        'sand-dark': {
-          50: '#1A1612',   // Dark sand base - deep coffee night
-          100: '#2D2419',  // Slightly lighter
-          200: '#3D3128',  // Border dark
-          400: '#8B7E74',  // Secondary text dark
-          900: '#F5E6D3',  // Primary text dark (light sand for dark bg)
-        },
-        'teal-dark': {
-          DEFAULT: '#14B8A6', // Brighter teal for dark mode
-          500: '#14B8A6',
-          600: '#14B8A6',
-        },
-        'coral-dark': {
-          DEFAULT: '#FB923C', // Brighter coral for dark mode
-          500: '#FB923C',
-        },
-
-        // Legacy shadcn compatibility (mapped to Beach Premium)
-        border: '#E5E1DC',
-        input: '#E5E1DC',
-        ring: '#0D9488',
-        background: '#FDFCF8',
-        foreground: '#422006',
+        // Legacy compatibility
+        border: '#E2E8F0',
+        input: '#E2E8F0',
+        ring: '#3B82F6',
+        background: '#F8FAFC',
+        foreground: '#1E293B',
         primary: {
-          DEFAULT: '#0D9488',
+          DEFAULT: '#3B82F6',
           foreground: '#FFFFFF',
         },
         secondary: {
-          DEFAULT: '#F97316',
+          DEFAULT: '#10B981',
           foreground: '#FFFFFF',
-        },
-        destructive: {
-          DEFAULT: 'hsl(0 84% 60%)',
-          foreground: '#FFFFFF',
-        },
-        muted: {
-          DEFAULT: '#FAF8F5',
-          foreground: '#A8A29E',
         },
         accent: {
           DEFAULT: '#F97316',
           foreground: '#FFFFFF',
         },
+        destructive: {
+          DEFAULT: '#EF4444',
+          foreground: '#FFFFFF',
+        },
+        muted: {
+          DEFAULT: '#F1F5F9',
+          foreground: '#64748B',
+        },
         popover: {
           DEFAULT: '#FFFFFF',
-          foreground: '#422006',
+          foreground: '#1E293B',
         },
         card: {
           DEFAULT: '#FFFFFF',
-          foreground: '#422006',
+          foreground: '#1E293B',
         },
       },
+
+      // Typography - Sporty & Athletic
+      fontFamily: {
+        sans: ['Barlow', 'system-ui', '-apple-system', 'sans-serif'],
+        condensed: ['Barlow Condensed', 'system-ui', 'sans-serif'],
+      },
+
+      // Border Radius - Chunky Claymorphism
       borderRadius: {
-        '2xl': '16px',  // Buttons - super rounded
-        '3xl': '24px',  // Cards & Modals - premium rounded corners
+        '2xl': '16px',
+        '3xl': '24px',
         xl: '12px',
         lg: '8px',
         md: '6px',
         sm: '4px',
       },
+
+      // Shadows - Claymorphism (Dual: Outer + Inner)
       boxShadow: {
-        // High-fidelity shadows with subtle color tints
-        'card': '0 8px 30px rgba(0, 0, 0, 0.04)',              // Soft diffuse shadow for cards
-        'button-teal': '0 4px 14px 0 rgba(13, 148, 136, 0.39)', // Teal glow for primary buttons
-        'button-coral': '0 4px 14px 0 rgba(249, 115, 22, 0.39)', // Coral glow for accent buttons
-        'xs': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        // Claymorphism shadows
+        'clay-sm': '0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.5)',
+        'clay': '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.4)',
+        'clay-lg': '0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 6px rgba(255, 255, 255, 0.3)',
+
+        // Colored shadows for buttons
+        'blue': '0 4px 14px rgba(59, 130, 246, 0.4)',
+        'emerald': '0 4px 14px rgba(16, 185, 129, 0.4)',
+        'orange': '0 4px 14px rgba(249, 115, 22, 0.4)',
+
+        // Lift effect
+        'lift': '0 12px 32px rgba(0, 0, 0, 0.15), inset 0 2px 6px rgba(255, 255, 255, 0.3)',
       },
+
+      // Letter Spacing
       letterSpacing: {
-        'tight': '-0.01em',  // Typography optimization
+        tight: '-0.01em',
+        'extra-tight': '-0.02em',
       },
+
+      // Keyframes & Animations
       keyframes: {
+        // Spring animation
+        spring: {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.05)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        // Lift animation
+        lift: {
+          '0%': { transform: 'translateY(0)', boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)' },
+          '100%': { transform: 'translateY(-4px)', boxShadow: '0 12px 32px rgba(0, 0, 0, 0.15)' },
+        },
+        // Press animation
+        press: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0.95)' },
+        },
+        // Existing
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -104,15 +177,13 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "caret-blink": {
-          "0%,70%,100%": { opacity: "1" },
-          "20%,50%": { opacity: "0" },
-        },
       },
       animation: {
+        spring: 'spring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        lift: 'lift 0.2s ease-out forwards',
+        press: 'press 0.1s ease-out forwards',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },

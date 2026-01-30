@@ -329,7 +329,8 @@ export function useQuadras() {
       toast.success('Quadra adicionada com sucesso!');
     } catch (error) {
       console.error("Erro ao adicionar quadra:", error);
-      toast.error('Erro ao adicionar quadra');
+      const errorMessage = (error as any).code || (error as any).message || 'Erro desconhecido';
+      toast.error(`Erro: ${errorMessage}`);
       throw error;
     }
   };
