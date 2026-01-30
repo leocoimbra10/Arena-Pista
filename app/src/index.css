@@ -1,210 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+ 
+ @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 199 89% 48%; /* brand-blue-500 #0EA5E9 */
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 199 89% 96%; /* brand-blue-50: #F0F9FF */
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-@layer base {
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 199 89% 48%;
+ 
+    --radius: 0.75rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
-    /* Sporty Typography - Athletic & Energetic */
-    font-family: 'Barlow', 'Inter', system-ui, -apple-system, sans-serif;
-    letter-spacing: -0.01em;
-
-    /* Claymorphism Colors - Vibrant & Fun */
-    background: #F8FAFC;
-    /* slate-50 */
-    color: #1E293B;
-    /* slate-800 */
-
-    @apply antialiased;
-    min-height: 100vh;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
-  /* Headings use Barlow Condensed for athletic feel */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'Barlow Condensed', system-ui, sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  /* Custom scrollbar - Blue theme */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(241, 245, 249, 0.5);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.3);
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(59, 130, 246, 0.5);
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold uppercase tracking-wide;
   }
 }
 
 @layer utilities {
-
-  /* Claymorphism Card - Chunky & Playful */
-  .clay-card {
-    @apply rounded-3xl bg-white border-4 transition-all duration-200;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-soft;
+  }
+  
+  .glass-button {
+    @apply bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 text-white transition-all duration-200;
   }
 
-  .clay-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), inset 0 2px 6px rgba(255, 255, 255, 0.3);
+  .text-gradient-beach {
+    @apply bg-gradient-to-r from-brand-blue-600 to-brand-teal-500 bg-clip-text text-transparent;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-floating hover:-translate-y-1;
   }
 
-  /* Claymorphism Button - Energetic */
-  .clay-button {
-    @apply rounded-2xl px-6 py-3.5 font-semibold border-3 transition-all duration-200 cursor-pointer;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  }
-
-  .clay-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .clay-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Text Gradients - Vibrant */
-  .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent;
-  }
-
-  .text-gradient-emerald {
-    @apply bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent;
-  }
-
-  .text-gradient-orange {
-    @apply bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent;
-  }
-
-  /* Hide Scrollbar */
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-
+  
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
-  }
-
-  /* Spring Effect - For CTAs */
-  .spring-hover:hover {
-    animation: spring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  /* Lift Effect - For Cards */
-  .lift-hover:hover {
-    animation: lift 0.2s ease-out forwards;
-  }
-}
-
-/* Calendar customization - Blue theme */
-.rdp {
-  --rdp-accent-color: #3B82F6;
-  --rdp-background-color: rgba(59, 130, 246, 0.1);
-}
-
-.rdp-day_selected {
-  background-color: #3B82F6 !important;
-  color: #fff !important;
-}
-
-.rdp-day:hover {
-  background-color: rgba(59, 130, 246, 0.1) !important;
-}
-
-/* Animation keyframes */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse-soft {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out;
-}
-
-.animate-slideUp {
-  animation: slideUp 0.4s ease-out;
-}
-
-.animate-pulse-soft {
-  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-/* Safe area for mobile */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-/* Reduced motion accessibility */
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }
